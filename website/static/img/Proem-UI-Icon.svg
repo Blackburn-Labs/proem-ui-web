@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="1236.902 8426.36 236.098 296.64" width="236.098" height="296.64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style type="text/css">
+   
+    .fil17 {fill:black}
+    .fil14 {fill:black}
+    .fil8 {fill:#01A6FE}
+    .fil0 {fill:#18001C}
+    .fil15 {fill:#212121}
+    .fil18 {fill:#333333}
+    .fil16 {fill:#35CA8A}
+    .fil3 {fill:#7D0D91}
+    .fil12 {fill:#8932B5}
+    .fil2 {fill:#9C27B0}
+    .fil11 {fill:#B14DE3}
+    .fil19 {fill:#B24CC4}
+    .fil1 {fill:#CB70DB}
+    .fil9 {fill:#CC8F00}
+    .fil6 {fill:#D9D9D9}
+    .fil13 {fill:#E39F00}
+    .fil10 {fill:#FFBD24}
+    .fil5 {fill:white}
+    .fil7 {fill:#9C27B0;fill-rule:nonzero}
+    .fil20 {fill:#B3B3B3;fill-rule:nonzero}
+    .fil4 {fill:white;fill-rule:nonzero}
+   
+  </style>
+  </defs>
+  <g>
+    <path class="fil8" d="M 1360 8474 L 1293.675 8437.898 L 1272.478 8426.36 L 1272.65 8467.209 L 1238.376 8467.919 L 1238.713 8546.468 L 1360 8474 Z"/>
+    <path class="fil9" d="M 1318 8723 L 1317.877 8628.706 L 1236.902 8675.861 L 1318 8723 Z"/>
+    <path d="M 1238 8582 L 1318 8629 L 1383 8592 L 1302 8545 L 1238 8582 Z" class="fil10"/>
+    <polygon class="fil11" points="1302,8509 1414,8574 1473,8540 1360,8474 "/>
+    <polygon class="fil12" points="1333,8527 1391,8493 1360,8474 1302,8509 "/>
+    <path d="M 1237 8676 L 1318 8629 L 1238 8582 L 1237 8676 Z" class="fil13"/>
+  </g>
+</svg>

@@ -1,0 +1,6 @@
+{
+  "docs": {
+    "Docs": ["intro", "store", "components", "domain", "backend"],
+    "Other Resources": ["faq"]
+  }
+}
