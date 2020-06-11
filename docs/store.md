@@ -356,6 +356,16 @@ export default function reducer(state = initState, action) {
 
 ```
 
+You may have noticed that even though the actions fire events with types `ITEMS_ADD`, `ITEMS_LIST`, etc, the reducer
+is watching for  `ITEMS_ADD_FULFILLED`, `ITEMS_LIST_FULFILLED`. This is a special addition made for actions that have a 
+promise for a payload, like Axios calls to API methods. Actions with promises as paylaods will have 3 possible types fires:
+
+ - `*_PENDING` - Fired when the action first starts
+ - `*_FULFILLED` - Fired when the action completes successfully
+ - `*_REJECTED` - Fire if thew action results in an error
+
+For more information see [redux-promise-middleware](https://github.com/pburtchaell/redux-promise-middleware/blob/HEAD/docs/introduction.md).
+
 Both of these reducers need to be added to `reducer/index.js` to make then accessible in by the application:
 ```javascript
 import { combineReducers } from 'redux';
@@ -374,6 +384,7 @@ export default combineReducers({
 
  - Learn more about [Redux Reducers](https://redux.js.org/basics/reducers)
  - Learn more about [Redux Stores](https://redux.js.org/basics/store)
+ - Learn more about [redux-promise-middleware](https://github.com/pburtchaell/redux-promise-middleware/blob/HEAD/docs/introduction.md)
 
 ## More Resources
 
