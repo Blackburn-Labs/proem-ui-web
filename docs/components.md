@@ -15,8 +15,65 @@ At the highest level, there are two sets of components:
   
 Use components as much as possible. Multiple small chunks of code are far easier to maintain then single large files of code. The smaller and more specialized/focused your components are, the better. 
 
+> Suggestion: We suggest that only page components connect directly to actions (scripts in `/actions`) using the 
+> `actionProvider` and reducers store. Those objects should then be passed into components. This keeps the access to
+> these functions focused, and helps keep your components mutable/decoupled.
+
 ## Pages
-Coming Soon
+Pages are the main states of your app. They are given access to the global data store using `react-redux`'s `connect`
+function. They are given access to the action scripts using `actionProvider` from `actions`. For more information on 
+the data flow to/from pages, see [Redux/Data Store Guide](store.md) 
+
+Here is an example of a Page using `connect`/`actionProvider`:
+```react
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import Actions, { actionProvider } from 'actions';
+
+import { MyDomainArray } from '../../domain';
+
+const propMap = store => ({
+    list: store.items.list,
+    fetching: store.items.fetching,
+    fetched: store.items.fetched,
+});
+
+class MyPage extends Component {
+    static propTypes = {
+        list: PropTypes.instanceOf(MyDomainArray).isRequired,
+        fetching: PropTypes.bool.isRequired,
+        fetched: PropTypes.bool.isRequired,
+        actions: PropTypes.instanceOf(Actions).isRequired,
+    };
+
+    static defaultProps = {};
+
+    componentDidMount() {
+        const { actions: { AppStateActions } } = this.props;
+        AppStateActions.setTitle('Example Page');
+    }
+
+    render() {
+        const {
+            list, fetched, fetching,
+        } = this.props;
+
+        if (!fetched || fetching) return <div>Loading...</div>;
+
+        return (
+            <ul>
+                {list.map(item => (
+                    <li key="item.id">{item.text}</li>
+                ))}
+            </ul>
+        );
+    }
+}
+
+export default connect(propMap, actionProvider)(MyPage);
+
+```
 
 
 ## Components
@@ -86,8 +143,43 @@ This Uses:
 
 ### Class Component
 For scenarios where your component needs to be more robust, a Class component adds more flexibility, but is a bit more verbose:
-```javascript
-Coming Soon
+```react
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+    root: {
+        padding: theme.spacing(),
+    },
+});
+
+class MessageBox extends Component {
+    static propTypes = {
+        message: PropTypes.string.isRequired,
+        classes: PropTypes.object.isRequired,
+    };
+
+    static defaultProps = {};
+
+    state = {};
+
+    render() {
+        const {
+            message, classes,
+        } = this.props;
+
+        return (
+            <Typography className={classes.root}>
+                {message}
+            </Typography>
+        );
+    }
+}
+
+export default withStyles(styles)(MessageBox);
+
 ```
 
 ### Further Reading:
@@ -126,7 +218,29 @@ export const withTitleAndMessage = () => (
  
 ## Icons
 
-Coming Soon
+It is strongly suggested that all icons in your application be SVG icons. Your Proem-UI app can use 
+[Material-UI Icons](https://material-ui.com/components/icons/), but also provides an optional method for introducing 
+your own custom SVG based icons. 
+ 
+Add each of your custom icons to `utils/Icons`, for example this `ArrowDownIcon.js`:
+```react
+import React from 'react';
+import SvgIcon from '@material-ui/core/SvgIcon';
 
- 
- 
+export default props => (
+    <SvgIcon {...props}>
+        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+    </SvgIcon>
+);
+
+```
+Then add your icon to `utils/Icons/index.js`. You can now access you cusotm icons inside any component:
+```react
+import { ArrowDownIcon } from 'utils/Icons';
+...
+<ArrowDownIcon />
+```
+
+### Further Reading:
+ - [Material-UI Icons](https://material-ui.com/components/icons/)
+ - [Material-UI SvgIcon](https://material-ui.com/api/svg-icon/)
