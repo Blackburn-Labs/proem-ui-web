@@ -1,3 +1,16 @@
+# IntelliJ project files
+.idea
+*.iml
+
+# Eclipse
+.classpath
+.project
+.settings
+
+# Project Specific
 dist
 node_modules
 build
+
+# OS
+.DS_Store
