@@ -244,3 +244,4 @@ import { ArrowDownIcon } from 'utils/Icons';
 ### Further Reading:
  - [Material-UI Icons](https://material-ui.com/components/icons/)
  - [Material-UI SvgIcon](https://material-ui.com/api/svg-icon/)
+ - [Material-UI Video Tutorial](https://www.youtube.com/playlist?list=PL4cUxeGkcC9gjxLvV4VEkZ6H6H4yWuS58)
