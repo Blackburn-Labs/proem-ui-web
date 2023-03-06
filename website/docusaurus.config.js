@@ -1,9 +1,9 @@
 module.exports={
   "title": "Proem-UI",
-  "url": "https://Blackburn-Labs.github.io/proem-ui-web",
-  "baseUrl": "/",
+  "url": "https://Blackburn-Labs.github.io",
+  "baseUrl": "/proem-ui-web/",
   "organizationName": "blackburn-labs",
-  "projectName": "proem-ui",
+  "projectName": "proem-ui-web",
   "deploymentBranch": "gh-pages",
   "trailingSlash": false,
   "scripts": [
