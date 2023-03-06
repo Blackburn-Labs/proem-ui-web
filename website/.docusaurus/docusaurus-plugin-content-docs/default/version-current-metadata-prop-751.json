@@ -1,0 +1,109 @@
+{
+  "pluginId": "default",
+  "version": "current",
+  "label": "Next",
+  "banner": null,
+  "badge": false,
+  "noIndex": false,
+  "className": "docs-version-current",
+  "isLast": true,
+  "docsSidebars": {
+    "docs": [
+      {
+        "type": "category",
+        "label": "Docs",
+        "items": [
+          {
+            "type": "link",
+            "label": "Introduction",
+            "href": "/docs/intro",
+            "docId": "intro"
+          },
+          {
+            "type": "link",
+            "label": "Redux/Data Store",
+            "href": "/docs/store",
+            "docId": "store"
+          },
+          {
+            "type": "link",
+            "label": "UI Components",
+            "href": "/docs/components",
+            "docId": "components"
+          },
+          {
+            "type": "link",
+            "label": "Domain Object",
+            "href": "/docs/domain",
+            "docId": "domain"
+          },
+          {
+            "type": "link",
+            "label": "Backend Integration",
+            "href": "/docs/backend",
+            "docId": "backend"
+          }
+        ],
+        "collapsed": true,
+        "collapsible": true
+      },
+      {
+        "type": "category",
+        "label": "Other Resources",
+        "items": [
+          {
+            "type": "link",
+            "label": "Frequently Asked Questions",
+            "href": "/docs/faq",
+            "docId": "faq"
+          }
+        ],
+        "collapsed": true,
+        "collapsible": true
+      }
+    ]
+  },
+  "docs": {
+    "backend": {
+      "id": "backend",
+      "title": "Backend Integration",
+      "description": "Coming Soon!",
+      "sidebar": "docs"
+    },
+    "begin": {
+      "id": "begin",
+      "title": "Getting Started",
+      "description": "Coming Soon!"
+    },
+    "components": {
+      "id": "components",
+      "title": "UI Components",
+      "description": "Component vs Page",
+      "sidebar": "docs"
+    },
+    "domain": {
+      "id": "domain",
+      "title": "Domain Object",
+      "description": "Domain Objects",
+      "sidebar": "docs"
+    },
+    "faq": {
+      "id": "faq",
+      "title": "Frequently Asked Questions",
+      "description": "Coming Soon!",
+      "sidebar": "docs"
+    },
+    "intro": {
+      "id": "intro",
+      "title": "Introduction",
+      "description": "This is a ReactJS project using:",
+      "sidebar": "docs"
+    },
+    "store": {
+      "id": "store",
+      "title": "Redux/Data Store",
+      "description": "Core Principle",
+      "sidebar": "docs"
+    }
+  }
+}

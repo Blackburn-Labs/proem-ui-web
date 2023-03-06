@@ -1,9 +1,9 @@
 ---
 title: Upcoming New Version 2.0.0
 author: Rob Blackburn
-authorURL: https://www.BlackburnLabs.com
+authorURL: "https://www.BlackburnLabs.com"
 authorTwitter: Blackburn_Labs
-authorImageURL: /img/robert-blackburn.jpg
+authorImageURL: "/img/robert-blackburn.jpg"
 ---
 
 We are very exc ited to announce that v2 of Proem-UI is on the way. 

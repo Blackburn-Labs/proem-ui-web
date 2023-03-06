@@ -3,44 +3,52 @@ id: intro
 title: Introduction
 sidebar_label: Introduction
 ---
-
-Proem UI Framework
-===========
+# Proem UI Framework
 
 This is a ReactJS project using:
 
-* [Redux](http://redux.js.org/) - Maintains the state of the app.
-* [Babel](https://babeljs.io/) - Compiles the app.
-* [Webpack](https://webpack.github.io/) - Bundles the app. 
-* [Jasmine](https://jasmine.github.io/) / [Karma](https://karma-runner.github.io) - Tests the app. 
-* [Axios](https://github.com/mzabriskie/axios) - Makes promise base HTTP calls for the app. 
-* [Material-ui](http://www.material-ui.com/) - Makes the app pretty.
+-   [Redux](http://redux.js.org/) - Maintains the state of the app.
+-   [Babel](https://babeljs.io/) - Compiles the app.
+-   [Webpack](https://webpack.github.io/) - Bundles the app. 
+-   [Jasmine](https://jasmine.github.io/) / [Karma](https://karma-runner.github.io) - Tests the app. 
+-   [Axios](https://github.com/mzabriskie/axios) - Makes promise base HTTP calls for the app. 
+-   [Material-ui](http://www.material-ui.com/) - Makes the app pretty.
 
-Run Project
----------------
+## Run Project
+
 If you have not done so already, run:
+
 ```shell
+
 $ npm install
+
 ```
 
 Once done, run:
+
 ```
+
 $ npm start
-``` 
+
+```
 
 This will build the project and start it in a browser.
 
 Before committing any changes to your project, please run unit tests and lint to check for code compliance:
+
 ```shell
+
 $ npm run test
 $ npm run lint
+
 ```
 
-Directory Layout
----------------
+## Directory Layout
+
 The web directory contains the web UI.
 
 ```shell
+
 /
 ├── /actions/                   # Redux action function library
 ├── /components/                # Shared or generic UI components
@@ -60,4 +68,5 @@ The web directory contains the web UI.
 │── renderer.js                 # This root application script, will be bundled into `renderer-bundle.js` using webpack
 │── store.js                    # The root Redux data store
 └── webpack.*.js                # Bundling and optimization settings for Webpack
+
 ```

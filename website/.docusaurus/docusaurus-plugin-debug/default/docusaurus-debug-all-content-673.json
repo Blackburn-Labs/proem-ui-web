@@ -1,0 +1,338 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "loadedVersions": [
+        {
+          "versionName": "current",
+          "label": "Next",
+          "banner": null,
+          "badge": false,
+          "noIndex": false,
+          "className": "docs-version-current",
+          "path": "/docs",
+          "tagsPath": "/docs/tags",
+          "isLast": true,
+          "routePriority": -1,
+          "sidebarFilePath": "/Users/rwblackburn/Projects/proem-ui-web/website-v2/sidebars.json",
+          "contentPath": "/Users/rwblackburn/Projects/proem-ui-web/docs",
+          "contentPathLocalized": "/Users/rwblackburn/Projects/proem-ui-web/website-v2/i18n/en/docusaurus-plugin-content-docs/current",
+          "docs": [
+            {
+              "unversionedId": "backend",
+              "id": "backend",
+              "title": "Backend Integration",
+              "description": "Coming Soon!",
+              "source": "@site/../docs/backend.md",
+              "sourceDirName": ".",
+              "slug": "/backend",
+              "permalink": "/docs/backend",
+              "draft": false,
+              "tags": [],
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055,
+              "formattedLastUpdatedAt": "Oct 14, 2018",
+              "frontMatter": {
+                "id": "backend",
+                "title": "Backend Integration",
+                "sidebar_label": "Backend Integration"
+              },
+              "sidebar": "docs",
+              "previous": {
+                "title": "Domain Object",
+                "permalink": "/docs/domain"
+              },
+              "next": {
+                "title": "Frequently Asked Questions",
+                "permalink": "/docs/faq"
+              }
+            },
+            {
+              "unversionedId": "begin",
+              "id": "begin",
+              "title": "Getting Started",
+              "description": "Coming Soon!",
+              "source": "@site/../docs/begin.md",
+              "sourceDirName": ".",
+              "slug": "/begin",
+              "permalink": "/docs/begin",
+              "draft": false,
+              "tags": [],
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055,
+              "formattedLastUpdatedAt": "Oct 14, 2018",
+              "frontMatter": {
+                "id": "begin",
+                "title": "Getting Started",
+                "sidebar_label": "Getting Started"
+              }
+            },
+            {
+              "unversionedId": "components",
+              "id": "components",
+              "title": "UI Components",
+              "description": "Component vs Page",
+              "source": "@site/../docs/components.md",
+              "sourceDirName": ".",
+              "slug": "/components",
+              "permalink": "/docs/components",
+              "draft": false,
+              "tags": [],
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055,
+              "formattedLastUpdatedAt": "Oct 14, 2018",
+              "frontMatter": {
+                "id": "components",
+                "title": "UI Components",
+                "sidebar_label": "UI Components"
+              },
+              "sidebar": "docs",
+              "previous": {
+                "title": "Redux/Data Store",
+                "permalink": "/docs/store"
+              },
+              "next": {
+                "title": "Domain Object",
+                "permalink": "/docs/domain"
+              }
+            },
+            {
+              "unversionedId": "domain",
+              "id": "domain",
+              "title": "Domain Object",
+              "description": "Domain Objects",
+              "source": "@site/../docs/domain.md",
+              "sourceDirName": ".",
+              "slug": "/domain",
+              "permalink": "/docs/domain",
+              "draft": false,
+              "tags": [],
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055,
+              "formattedLastUpdatedAt": "Oct 14, 2018",
+              "frontMatter": {
+                "id": "domain",
+                "title": "Domain Object",
+                "sidebar_label": "Domain Object"
+              },
+              "sidebar": "docs",
+              "previous": {
+                "title": "UI Components",
+                "permalink": "/docs/components"
+              },
+              "next": {
+                "title": "Backend Integration",
+                "permalink": "/docs/backend"
+              }
+            },
+            {
+              "unversionedId": "faq",
+              "id": "faq",
+              "title": "Frequently Asked Questions",
+              "description": "Coming Soon!",
+              "source": "@site/../docs/faq.md",
+              "sourceDirName": ".",
+              "slug": "/faq",
+              "permalink": "/docs/faq",
+              "draft": false,
+              "tags": [],
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055,
+              "formattedLastUpdatedAt": "Oct 14, 2018",
+              "frontMatter": {
+                "id": "faq",
+                "title": "Frequently Asked Questions"
+              },
+              "sidebar": "docs",
+              "previous": {
+                "title": "Backend Integration",
+                "permalink": "/docs/backend"
+              }
+            },
+            {
+              "unversionedId": "intro",
+              "id": "intro",
+              "title": "Introduction",
+              "description": "This is a ReactJS project using:",
+              "source": "@site/../docs/intro.md",
+              "sourceDirName": ".",
+              "slug": "/intro",
+              "permalink": "/docs/intro",
+              "draft": false,
+              "tags": [],
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055,
+              "formattedLastUpdatedAt": "Oct 14, 2018",
+              "frontMatter": {
+                "id": "intro",
+                "title": "Introduction",
+                "sidebar_label": "Introduction"
+              },
+              "sidebar": "docs",
+              "next": {
+                "title": "Redux/Data Store",
+                "permalink": "/docs/store"
+              }
+            },
+            {
+              "unversionedId": "store",
+              "id": "store",
+              "title": "Redux/Data Store",
+              "description": "Core Principle",
+              "source": "@site/../docs/store.md",
+              "sourceDirName": ".",
+              "slug": "/store",
+              "permalink": "/docs/store",
+              "draft": false,
+              "tags": [],
+              "version": "current",
+              "lastUpdatedBy": "Author",
+              "lastUpdatedAt": 1539502055,
+              "formattedLastUpdatedAt": "Oct 14, 2018",
+              "frontMatter": {
+                "id": "store",
+                "title": "Redux/Data Store"
+              },
+              "sidebar": "docs",
+              "previous": {
+                "title": "Introduction",
+                "permalink": "/docs/intro"
+              },
+              "next": {
+                "title": "UI Components",
+                "permalink": "/docs/components"
+              }
+            }
+          ],
+          "drafts": [],
+          "sidebars": {
+            "docs": [
+              {
+                "type": "category",
+                "label": "Docs",
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "intro"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "store"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "components"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "domain"
+                  },
+                  {
+                    "type": "doc",
+                    "id": "backend"
+                  }
+                ],
+                "collapsed": true,
+                "collapsible": true
+              },
+              {
+                "type": "category",
+                "label": "Other Resources",
+                "items": [
+                  {
+                    "type": "doc",
+                    "id": "faq"
+                  }
+                ],
+                "collapsed": true,
+                "collapsible": true
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "docusaurus-plugin-content-blog": {
+    "default": {
+      "blogSidebarTitle": "Recent posts",
+      "blogPosts": [
+        {
+          "id": "/2020/05/29/new-version-2.0.0",
+          "metadata": {
+            "permalink": "/blog/2020/05/29/new-version-2.0.0",
+            "source": "@site/blog/2020-05-29-new-version-2.0.0.md",
+            "title": "Upcoming New Version 2.0.0",
+            "description": "We are very exc ited to announce that v2 of Proem-UI is on the way.",
+            "date": "2020-05-29T00:00:00.000Z",
+            "formattedDate": "May 29, 2020",
+            "tags": [],
+            "readingTime": 0.17,
+            "hasTruncateMarker": false,
+            "authors": [
+              {
+                "name": "Rob Blackburn",
+                "url": "https://www.BlackburnLabs.com",
+                "imageURL": "/img/robert-blackburn.jpg"
+              }
+            ],
+            "frontMatter": {
+              "title": "Upcoming New Version 2.0.0",
+              "author": "Rob Blackburn",
+              "authorURL": "https://www.BlackburnLabs.com",
+              "authorTwitter": "Blackburn_Labs",
+              "authorImageURL": "/img/robert-blackburn.jpg"
+            }
+          },
+          "content": "We are very exc ited to announce that v2 of Proem-UI is on the way. \n\nThis version comes with a new web site and help material. Stay tuned for more big news coming up,"
+        }
+      ],
+      "blogListPaginated": [
+        {
+          "items": [
+            "/2020/05/29/new-version-2.0.0"
+          ],
+          "metadata": {
+            "permalink": "/blog",
+            "page": 1,
+            "postsPerPage": 10,
+            "totalPages": 1,
+            "totalCount": 1,
+            "blogDescription": "Blog",
+            "blogTitle": "Blog"
+          }
+        }
+      ],
+      "blogTags": {},
+      "blogTagsListPath": "/blog/tags"
+    }
+  },
+  "docusaurus-plugin-content-pages": {
+    "default": [
+      {
+        "type": "jsx",
+        "permalink": "/help",
+        "source": "@site/src/pages/help.js"
+      },
+      {
+        "type": "jsx",
+        "permalink": "/",
+        "source": "@site/src/pages/index.js"
+      },
+      {
+        "type": "jsx",
+        "permalink": "/users",
+        "source": "@site/src/pages/users.js"
+      }
+    ]
+  },
+  "docusaurus-plugin-debug": {},
+  "docusaurus-theme-classic": {},
+  "docusaurus-bootstrap-plugin": {},
+  "docusaurus-mdx-fallback-plugin": {}
+}

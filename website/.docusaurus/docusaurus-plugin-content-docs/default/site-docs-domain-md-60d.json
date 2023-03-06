@@ -1,0 +1,30 @@
+{
+  "unversionedId": "domain",
+  "id": "domain",
+  "title": "Domain Object",
+  "description": "Domain Objects",
+  "source": "@site/../docs/domain.md",
+  "sourceDirName": ".",
+  "slug": "/domain",
+  "permalink": "/docs/domain",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055,
+  "formattedLastUpdatedAt": "Oct 14, 2018",
+  "frontMatter": {
+    "id": "domain",
+    "title": "Domain Object",
+    "sidebar_label": "Domain Object"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "UI Components",
+    "permalink": "/docs/components"
+  },
+  "next": {
+    "title": "Backend Integration",
+    "permalink": "/docs/backend"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "unversionedId": "begin",
+  "id": "begin",
+  "title": "Getting Started",
+  "description": "Coming Soon!",
+  "source": "@site/../docs/begin.md",
+  "sourceDirName": ".",
+  "slug": "/begin",
+  "permalink": "/docs/begin",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055,
+  "formattedLastUpdatedAt": "Oct 14, 2018",
+  "frontMatter": {
+    "id": "begin",
+    "title": "Getting Started",
+    "sidebar_label": "Getting Started"
+  }
+}

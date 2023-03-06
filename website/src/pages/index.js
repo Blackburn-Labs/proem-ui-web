@@ -6,10 +6,28 @@
  */
 
 const React = require('react');
+import Layout from "@theme/Layout";
 
-const CompLibrary = require('../../core/CompLibrary.js');
+const CompLibrary = {
+  Container: props => <div {...props}></div>,
+  GridBlock: props => {
+      return (
+          <>
+              {props.contents.map(c => {
+                  return (<div {...props} style={{ clear: 'both' }}>
+                      <h4>{c.title}</h4>
+                      <img src={c.image} className={`blockImage imageAlign-${c.imageAlign}`} />
+                      {c.content}
+                  </div>)
+              })}
+          </>
+      )
+  },
+  MarkdownBlock: props => <div {...props}></div>
+};
 
-const MarkdownBlock = CompLibrary.MarkdownBlock; /* Used to read markdown */
+
+const MarkdownBlock = CompLibrary.MarkdownBlock;/* Used to read markdown */
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
@@ -82,16 +100,13 @@ class Index extends React.Component {
     const {baseUrl} = siteConfig;
 
     const Block = props => (
-      <Container
-        padding={['bottom', 'top']}
-        id={props.id}
-        background={props.background}>
+      <>
         <GridBlock
           align={props.textAlign || 'center'}
           contents={props.children}
           layout={props.layout}
         />
-      </Container>
+      </>
     );
 
     const TryOut = () => (
@@ -206,17 +221,20 @@ class Index extends React.Component {
       <div>
         <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="mainContainer">
-          <Features />
-          <WhatIsProem />
-          <TryOut />
-          {/*
-          <Newsletter />
-          <Showcase />
-          */}
+            <div id="features">
+                <Features />
+            </div>
+
+            <div id="what-is">
+                <WhatIsProem />
+            </div>
+            <div id="try">
+                <TryOut />
+            </div>
         </div>
       </div>
     );
   }
 }
 
-module.exports = Index;
+export default props => <Layout><Index {...props} /></Layout>;

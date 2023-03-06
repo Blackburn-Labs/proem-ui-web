@@ -1,0 +1,29 @@
+{
+  "unversionedId": "store",
+  "id": "store",
+  "title": "Redux/Data Store",
+  "description": "Core Principle",
+  "source": "@site/../docs/store.md",
+  "sourceDirName": ".",
+  "slug": "/store",
+  "permalink": "/docs/store",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055,
+  "formattedLastUpdatedAt": "Oct 14, 2018",
+  "frontMatter": {
+    "id": "store",
+    "title": "Redux/Data Store"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Introduction",
+    "permalink": "/docs/intro"
+  },
+  "next": {
+    "title": "UI Components",
+    "permalink": "/docs/components"
+  }
+}

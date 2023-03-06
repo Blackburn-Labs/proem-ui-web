@@ -1,0 +1,104 @@
+:root{
+  --ifm-color-primary-lightest: #AA5BD2;
+  --ifm-color-primary-lighter: #9C40CA;
+  --ifm-color-primary-light: #9737C7;
+  --ifm-color-primary: #8932B5;
+  --ifm-color-primary-dark: #7B2DA3;
+  --ifm-color-primary-darker: #742A9A;
+  --ifm-color-primary-darkest: #60237F;
+}
+
+/* your custom css */
+
+.fixedHeaderContainer {
+  background-color: #535353;
+}
+
+.highlight {
+  color: #8932b5;
+}
+
+/* Home Container */
+.homeContainer {
+  background-color: #20232a;
+  color: #ffffff;
+  font-size: 1.6em;
+}
+
+.homeContainer .projectTitle, .homeContainer .button {
+  color: #ffffff;
+}
+
+.homeContainer .buttonWrapper {
+  display: inline-block;
+}
+
+.homeContainer .button {
+  font-size: 1em;
+  border-radius: 4px;
+  border-width: 2px;
+  padding: 0.2em 1em;
+  margin: 0.2em;
+  color: #ffffff;
+  background-color: #8932b5;
+}
+
+.blockImage {
+  max-width: 240px;
+}
+
+.blockImage.imageAlign-top {
+  max-width: 180px;
+  display: block;
+}
+
+.blockImage.imageAlign-left {
+  float: left
+}
+
+.blockImage.imageAlign-right {
+  float: right
+}
+
+#features, #what-is, #try {
+  display: flex;
+  flex-direction: row;
+  padding: 16px;
+}
+
+#what-is {
+  background-color: #efefef;
+}
+
+@media only screen and (max-width: 1200px) {
+  .homeContainer .homeWrapper .projectLogo {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .homeContainer .homeWrapper .inner {
+    padding-right: 200px;
+  }
+
+  .homeContainer .homeWrapper .projectLogo img {
+    position: absolute;
+    right: 0;
+    max-width: 190px;
+  }
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+}
+
+@media only screen and (min-width: 1024px) {
+}
+
+@media only screen and (max-width: 1023px) {
+}
+
+@media only screen and (min-width: 1400px) {
+}
+
+@media only screen and (min-width: 1500px) {
+}

@@ -1,0 +1,25 @@
+{
+  "permalink": "/blog/2020/05/29/new-version-2.0.0",
+  "source": "@site/blog/2020-05-29-new-version-2.0.0.md",
+  "title": "Upcoming New Version 2.0.0",
+  "description": "We are very exc ited to announce that v2 of Proem-UI is on the way.",
+  "date": "2020-05-29T00:00:00.000Z",
+  "formattedDate": "May 29, 2020",
+  "tags": [],
+  "readingTime": 0.17,
+  "hasTruncateMarker": false,
+  "authors": [
+    {
+      "name": "Rob Blackburn",
+      "url": "https://www.BlackburnLabs.com",
+      "imageURL": "/img/robert-blackburn.jpg"
+    }
+  ],
+  "frontMatter": {
+    "title": "Upcoming New Version 2.0.0",
+    "author": "Rob Blackburn",
+    "authorURL": "https://www.BlackburnLabs.com",
+    "authorTwitter": "Blackburn_Labs",
+    "authorImageURL": "/img/robert-blackburn.jpg"
+  }
+}

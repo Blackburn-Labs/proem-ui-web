@@ -1,0 +1,26 @@
+{
+  "unversionedId": "intro",
+  "id": "intro",
+  "title": "Introduction",
+  "description": "This is a ReactJS project using:",
+  "source": "@site/../docs/intro.md",
+  "sourceDirName": ".",
+  "slug": "/intro",
+  "permalink": "/docs/intro",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055,
+  "formattedLastUpdatedAt": "Oct 14, 2018",
+  "frontMatter": {
+    "id": "intro",
+    "title": "Introduction",
+    "sidebar_label": "Introduction"
+  },
+  "sidebar": "docs",
+  "next": {
+    "title": "Redux/Data Store",
+    "permalink": "/docs/store"
+  }
+}

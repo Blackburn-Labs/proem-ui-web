@@ -1,0 +1,25 @@
+{
+  "unversionedId": "faq",
+  "id": "faq",
+  "title": "Frequently Asked Questions",
+  "description": "Coming Soon!",
+  "source": "@site/../docs/faq.md",
+  "sourceDirName": ".",
+  "slug": "/faq",
+  "permalink": "/docs/faq",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055,
+  "formattedLastUpdatedAt": "Oct 14, 2018",
+  "frontMatter": {
+    "id": "faq",
+    "title": "Frequently Asked Questions"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Backend Integration",
+    "permalink": "/docs/backend"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "unversionedId": "components",
+  "id": "components",
+  "title": "UI Components",
+  "description": "Component vs Page",
+  "source": "@site/../docs/components.md",
+  "sourceDirName": ".",
+  "slug": "/components",
+  "permalink": "/docs/components",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055,
+  "formattedLastUpdatedAt": "Oct 14, 2018",
+  "frontMatter": {
+    "id": "components",
+    "title": "UI Components",
+    "sidebar_label": "UI Components"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Redux/Data Store",
+    "permalink": "/docs/store"
+  },
+  "next": {
+    "title": "Domain Object",
+    "permalink": "/docs/domain"
+  }
+}

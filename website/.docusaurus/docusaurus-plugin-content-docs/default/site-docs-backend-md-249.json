@@ -1,0 +1,30 @@
+{
+  "unversionedId": "backend",
+  "id": "backend",
+  "title": "Backend Integration",
+  "description": "Coming Soon!",
+  "source": "@site/../docs/backend.md",
+  "sourceDirName": ".",
+  "slug": "/backend",
+  "permalink": "/docs/backend",
+  "draft": false,
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055,
+  "formattedLastUpdatedAt": "Oct 14, 2018",
+  "frontMatter": {
+    "id": "backend",
+    "title": "Backend Integration",
+    "sidebar_label": "Backend Integration"
+  },
+  "sidebar": "docs",
+  "previous": {
+    "title": "Domain Object",
+    "permalink": "/docs/domain"
+  },
+  "next": {
+    "title": "Frequently Asked Questions",
+    "permalink": "/docs/faq"
+  }
+}

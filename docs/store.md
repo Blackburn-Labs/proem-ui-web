@@ -1,8 +1,7 @@
 ---
 id: store
-title: Redux/Data Store
+title: "Redux/Data Store"
 ---
-
 ## Core Principle
 
 The flow of information in a ReactJS app, should go in a single direction:
@@ -16,25 +15,26 @@ Of course, most apps will have at least one backend system they will interact wi
 introduced, it illustrates how clean and powerful this flow becomes:
 ![alt-text](assets/store-cycle-with-backend.png)
 
-> Suggestion: If you are new ro React and Redux, we suggest first watching [LearnCode.academy](https://twitter.com/learncodeacad)'s 
-> tutorial series in [React JS](https://youtu.be/MhkGQAoc7bc?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b) and [Redux](https://youtu.be/1w-oQ-i1XB8?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b).
+&gt; Suggestion: If you are new ro React and Redux, we suggest first watching [LearnCode.academy](https://twitter.com/learncodeacad)'s 
+&gt; tutorial series in [React JS](https://youtu.be/MhkGQAoc7bc?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b) and [Redux](https://youtu.be/1w-oQ-i1XB8?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b).
 
 ## Each Flow Step
 
-### Store -> UI
+### Store -&gt; UI
 
 First we need to look at the app’s data store and how it works, then we can look at how that data store is fed to the UI.
 
 #### Data Store
+
 By leveraging [Redux](https://redux.js.org/) your Proem-UI will have a single central data store. This store is created 
 within the `/store.js` right on the root of your project. 
 
 If you take a look at `/store.js`, you will see it imports the reducers for setting the store’s initial state as well 
-as manipulating it. We will see more on that below in the “reducer -> store” section. 
+as manipulating it. We will see more on that below in the “reducer -&gt; store” section. 
 
-> Note: The `/store.js` comes preconfigured with `redux-logger`, which will only be used in debug/developer mode. This 
-> will automatically output any changes to your data store to the browser console. This makes debugging your app far
-> easier. 
+&gt; Note: The `/store.js` comes preconfigured with `redux-logger`, which will only be used in debug/developer mode. This 
+&gt; will automatically output any changes to your data store to the browser console. This makes debugging your app far
+&gt; easier. 
 
 #### Connecting Store to UI
 
@@ -43,6 +43,7 @@ The store is bright into your app via the `rendered.js`, which passes the store 
 This will give any component access to the store by using the `connect` function of `react-redux`. Here is an example:
 
 ```javascript
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -82,24 +83,24 @@ class MyPage extends Component {
 
 export default connect(propMap)(MyPage);
 
+
 ```
 
 This example creates a page component called MyPage, and connects the data store to it, mapping specific data store 
 fields using `propsMap`. The store mapping maps 3 fields from a store called items: `fetching`, `fetched`, and `list`. 
 The `list` is a `MyDomainArray`, we will see more on domain objects below. It simply loops the list and outputs each 
 item in it. 
- 
 
-> Suggestion: For keeping your connections clear and clean, we suggest that for most apps only connect your pages 
-> (components in `/pages`) directly to the store. All data passed into components (components in `/components`) be done 
-> as properties. This can help keep the data flow clear and avoid complicated debugging scenarios. It also makes your 
-> components more decoupled and less dependent on the specifics of the data store. 
+&gt; Suggestion: For keeping your connections clear and clean, we suggest that for most apps only connect your pages 
+&gt; (components in `/pages`) directly to the store. All data passed into components (components in `/components`) be done 
+&gt; as properties. This can help keep the data flow clear and avoid complicated debugging scenarios. It also makes your 
+&gt; components more decoupled and less dependent on the specifics of the data store. 
 
 #### Further Reading
 
- - Learn more about [Redux Stores](https://redux.js.org/basics/store)
+-   Learn more about [Redux Stores](https://redux.js.org/basics/store)
 
-### UI -> Actions
+### UI -&gt; Actions
 
 Actions are a collection of functions that can be called to change the state of the application, or otherwise perform external activities. For example, calling an API method. 
 
@@ -107,10 +108,13 @@ All actions are in `/actions` and are aggregated and made conveniently accessibl
 all action methods need to be "bound", which Proem-UI makes easy with the `actionProvider` method, which we cover below.
 
 #### Creating Actions
+
 First, let’s look at how to make a new action function. We will make a function that will be used to update the title of the application. 
 
 In file `appStateActions.js`:
+
 ```javascript
+
 import { asPromise } from './utils';
 
 export function setTitle(title) {
@@ -119,6 +123,7 @@ export function setTitle(title) {
         payload: asPromise(title),
     };
 }
+
 ```
 
 This creates a function called `setTitle`. All actions need to return an object that contains a `type` and `payload` (and can optionally include other things, for example you may include a `meta` property). The `asPromise` function is a convenience function provided by Proem-UI to make it easier to turn plan payloads into promises so that actions can be synchronized if needed. 
@@ -126,6 +131,7 @@ This creates a function called `setTitle`. All actions need to return an object 
 To make accessing all your actions easier, make sure to add `actions/appStateActions.js` to `actions/index.js`. The index is already created for you, simply add your actions to the `actionsToBind` object:
 
 ```javascript
+
 ...
 import * as AppStateActions from './appStateActions';
 ...
@@ -133,13 +139,17 @@ const actionsToBind = {
     AppStateActions,
 };
 ...
+
 ```
 
 #### API Actions
+
 Most apps will need to fire actions that invoke a API call. This is easily done in Proem-UI using [Axios](https://github.com/axios/axios). 
 
 Example `action/itemActions.js`:
+
 ```javascript
+
 import axios from 'axios';
 import Config from 'Config';
 
@@ -192,6 +202,7 @@ export function remove(item) {
     };
 }
 
+
 ```
 
 In this we use `generateHeader` as another convenience method. Place your API’s expected HTTP headers in this function. Proem-UI comes with an example, based on Parse Platform. 
@@ -199,6 +210,7 @@ In this we use `generateHeader` as another convenience method. Place your API’
 As before, make sure to add your new actions file to `actions/index.js`:
 
 ```javascript
+
 ...
 import * as AppStateActions from './appStateActions';
 import * as ItemActions from './itemActions';
@@ -208,10 +220,13 @@ const actionsToBind = {
    ItemActions,
 };
 ...
-``` 
+
+```
 
 #### Connecting Actions to UI
+
 ```javascript
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -259,28 +274,31 @@ class MyPage extends Component {
 
 export default connect(propMap, actionProvider)(MyPage);
 
+
 ```
 
 The `actionProvider` is the Proem-UI provided function used to easily load in and bind your applications action objects 
 for you.  
 
-> Suggestion: Much like connecting data stores, we suggest that only page components (components in `/pages`) connect 
-> directly to actions using the `actionProvider` and that the actions object is then passed into components (components 
-> in `/components`).
+&gt; Suggestion: Much like connecting data stores, we suggest that only page components (components in `/pages`) connect 
+&gt; directly to actions using the `actionProvider` and that the actions object is then passed into components (components 
+&gt; in `/components`).
 
 #### Further Reading
 
- - Learn more about [Redux Actions](https://redux.js.org/basics/actions)
- - Learn more about [Axios](https://github.com/axios/axios)
+-   Learn more about [Redux Actions](https://redux.js.org/basics/actions)
+-   Learn more about [Axios](https://github.com/axios/axios)
 
-### Actions -> Reducers -> Store
+### Actions -&gt; Reducers -&gt; Store
 
 We’ve now covered how a UI can connect and display information from the application’s data stores, and how to invoke an action. Now we can look at how we capture those actions being requested to react to them. This is done with reducers
 
 All reducers are stored in `reducer` and are joined together for easy export in `reducer/index.js`. Proem-UI comes configured so that once you have included your reducer to `reducer/index.js` it will then be automatically included as a part of your application’s store.
 
 Continuing with our previous examples for setting an application title, here is `reducer/appStateReducer.js`:
+
 ```javascript
+
 const initState = {
     title: 'Initial Title',
 };
@@ -296,6 +314,7 @@ export default function reducer(state = initState, action) {
         }
     }
 }
+
 ```
 
 This initializes the title as 'Initial Title' and then updates it whenever it sees the 'SET_TITLE' action type.
@@ -303,6 +322,7 @@ This initializes the title as 'Initial Title' and then updates it whenever it se
 To continue our previous examples of displaying a list of items, this would be the `reducer/itemReducer.js`:
 
 ```javascript
+
 import Config from 'Config';
 import { MyDomainArray, MyDomainObject } from '../domain';
 
@@ -354,20 +374,23 @@ export default function reducer(state = initState, action) {
     }
 }
 
+
 ```
 
 You may have noticed that even though the actions fire events with types `ITEMS_ADD`, `ITEMS_LIST`, etc, the reducer
 is watching for  `ITEMS_ADD_FULFILLED`, `ITEMS_LIST_FULFILLED`. This is a special addition made for actions that have a 
 promise for a payload, like Axios calls to API methods. Actions with promises as paylaods will have 3 possible types fires:
 
- - `*_PENDING` - Fired when the action first starts
- - `*_FULFILLED` - Fired when the action completes successfully
- - `*_REJECTED` - Fire if thew action results in an error
+-   `*_PENDING` - Fired when the action first starts
+-   `*_FULFILLED` - Fired when the action completes successfully
+-   `*_REJECTED` - Fire if thew action results in an error
 
 For more information see [redux-promise-middleware](https://github.com/pburtchaell/redux-promise-middleware/blob/HEAD/docs/introduction.md).
 
 Both of these reducers need to be added to `reducer/index.js` to make then accessible in by the application:
+
 ```javascript
+
 import { combineReducers } from 'redux';
 
 import appState from './appStateReducer';
@@ -378,21 +401,21 @@ export default combineReducers({
     item,
 });
 
+
 ```
 
 #### Further Reading
 
- - Learn more about [Redux Reducers](https://redux.js.org/basics/reducers)
- - Learn more about [Redux Stores](https://redux.js.org/basics/store)
- - Learn more about [redux-promise-middleware](https://github.com/pburtchaell/redux-promise-middleware/blob/HEAD/docs/introduction.md)
+-   Learn more about [Redux Reducers](https://redux.js.org/basics/reducers)
+-   Learn more about [Redux Stores](https://redux.js.org/basics/store)
+-   Learn more about [redux-promise-middleware](https://github.com/pburtchaell/redux-promise-middleware/blob/HEAD/docs/introduction.md)
 
 ## More Resources
 
 If you are new to React, we suggest watching through these 14 videos on React & Flux by [LearnCode.academy](https://twitter.com/learncodeacad):
 
- - [React JS Tutorial](https://youtu.be/MhkGQAoc7bc?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b)
- 
- 
+-   [React JS Tutorial](https://youtu.be/MhkGQAoc7bc?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b)
+
 After, we would also suggest take a look at these 7 videos on Redux within React, also by [LearnCode.academy](https://twitter.com/learncodeacad):
 
-- [Redux Tutorial](https://youtu.be/1w-oQ-i1XB8?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b)
+-   [Redux Tutorial](https://youtu.be/1w-oQ-i1XB8?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b)
