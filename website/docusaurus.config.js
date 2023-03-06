@@ -1,6 +1,6 @@
 module.exports={
   "title": "Proem-UI",
-  "url": "https://proemui.com",
+  "url": "https://Blackburn-Labs.github.io/proem-ui-web",
   "baseUrl": "/",
   "organizationName": "blackburn-labs",
   "projectName": "proem-ui",
