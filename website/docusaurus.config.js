@@ -1,9 +1,11 @@
 module.exports={
   "title": "Proem-UI",
-  "url": "http://proemui.com",
+  "url": "https://proemui.com",
   "baseUrl": "/",
   "organizationName": "blackburn-labs",
   "projectName": "proem-ui",
+  "deploymentBranch": "gh-pages",
+  "trailingSlash": false,
   "scripts": [
     "https://buttons.github.io/buttons.js"
   ],
