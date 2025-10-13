@@ -13,11 +13,13 @@ const CompLibrary = {
   GridBlock: props => {
       return (
           <>
-              {props.contents.map(c => {
-                  return (<div {...props} style={{ clear: 'both' }}>
-                      <h4>{c.title}</h4>
-                      <img src={c.image} className={`blockImage imageAlign-${c.imageAlign}`} />
-                      {c.content}
+              {props.contents.map((c, idx) => {
+                  return (<div key={idx} style={{ padding: '20px' }}>
+                      {c.title && <h4 className="section-title">{c.title}</h4>}
+                      <div {...props} style={{ clear: 'both' }} className="section-content">
+                          <img src={c.image} className={`blockImage imageAlign-${c.imageAlign}`} alt={c.title} />
+                          <div className="content-wrapper">{c.content}</div>
+                      </div>
                   </div>)
               })}
           </>
@@ -86,7 +88,7 @@ class HomeSplash extends React.Component {
           />
           <PromoSection>
             <Button href="#quick-start">Quick Start</Button>
-            <Button href={docUrl('intro')}>Help Docs</Button>
+            <Button href="/docs/intro">Help Docs</Button>
           </PromoSection>
         </div>
       </SplashContainer>
@@ -113,15 +115,22 @@ class Index extends React.Component {
       <Block id="quick-start" textAlign="left">
         {[
           {
-            content:
-                'Get started quickly by simply using Git to clone Proem-UI:' +
-                '\n```\ngit clone https://github.com/Blackburn-Labs/proem-ui.git\n```\n' +
-                'Alternatively, you can simply [download](https://github.com/Blackburn-Labs/proem-ui) the files from ' +
-                '[GitHub](https://github.com/Blackburn-Labs/proem-ui). Copy the contents of `proem-ui\\template` to ' +
-                'your new project. From inside your new project directory run:' +
-                '\n```\nnpm install\nnpm start\n```\n' +
-                'A `npx` command that makes this even easier will be coming soon. For more information see the ' +
-                '[Proem-UI Guides](/docs/intro)' ,
+            content: (
+              <>
+                <p>Get started quickly by simply using Git to clone Proem-UI:</p>
+                <pre><code>git clone https://github.com/Blackburn-Labs/proem-ui.git</code></pre>
+                <p>
+                  Alternatively, you can simply <a href="https://github.com/Blackburn-Labs/proem-ui">download</a> the files from
+                  <a href="https://github.com/Blackburn-Labs/proem-ui">GitHub</a>. Copy the contents of the zip file to
+                  your new project. From inside your new project directory, run:
+                </p>
+                <pre><code>npm install{'\n'}npm start</code></pre>
+                <p>
+                  A <code>npx</code> command that makes this even easier will be coming soon. For more information, see the
+                  <a href="/docs/intro">Proem-UI Guides</a>
+                </p>
+              </>
+            ),
             image: `${baseUrl}img/undraw_monitor.svg`,
             imageAlign: 'left',
             title: 'Quick Start',
@@ -148,13 +157,16 @@ class Index extends React.Component {
       <Block background="light">
         {[
           {
-            content:
-              '[Proem-UI](www.proemiu.com) is a framework designed to make it easier, faster, and safer to create React ' +
-              'apps. It has been used to create enterprise level mobile aps, iOS/Android apps (via Cordova) and even ' +
-              'Windows/Mac desktops apps (via Electron). We combine powerful tools like React, Redux, Axios, Webpack, ' +
-              'and Babel to give your app a scalable, well architected starting point. Then we add tools like Storybook, ' +
-              'ESLint, and Jasmine to make it easier to test and stabilize your app. However, we don\'t stop there. ' +
-              'Proem-UI provides guides, helpful material and support for your app.',
+            content: (
+              <p>
+                <a href="https://proemui.com">Proem-UI</a> is a framework designed to make it easier, faster, and safer to create React
+                apps. It has been used to create enterprise level mobile apps, iOS/Android apps (via Cordova) and even
+                Windows/Mac desktop apps (via Electron). We combine powerful tools like React, Redux, Axios, Webpack,
+                and Babel to give your app a scalable, well architected starting point. Then we add tools like Storybook,
+                ESLint, and Jasmine to make it easier to test and stabilize your app. However, we don't stop there.
+                Proem-UI provides guides, helpful material and support for your app.
+              </p>
+            ),
             image: `${baseUrl}img/undraw_app_installation.svg`,
             imageAlign: 'right',
             title: 'What is Proem-UI?',
@@ -167,20 +179,20 @@ class Index extends React.Component {
       <Block layout="threeColumn">
         {[
           {
-            content: 'Build powerful React app in a fraction of the time. Help follow well researched and battle test architecture and best practices.',
+            content: 'Build a powerful React app in a fraction of the time. Help follow well-researched and battle-tested architecture and best practices.',
             image: `${baseUrl}img/undraw_react.svg`,
             imageAlign: 'top',
             title: 'A React Framework',
           },
           {
             content: 'Create beautiful apps by leveraging Material-UI, a simple and extensive component library.',
-            image: `${baseUrl}img/undraw_experience_design.svg`,
+            image: `${baseUrl}img/undraw_designing.svg`,
             imageAlign: 'top',
             title: 'Material Design',
           },
           {
-            content: 'Let us take the uncertainty and stress our of your project. Go forward knowing your app is will architected and is backed by many well established and powerfull tools. ',
-            image: `${baseUrl}img/undraw_completing.svg`,
+            content: 'Let us take the uncertainty and stress out of your project. Go forward knowing your app is well-architected and backed by powerful, well-established tools. ',
+            image: `${baseUrl}img/undraw_developer.svg`,
             imageAlign: 'top',
             title: 'Stress Free Development',
           },
@@ -228,7 +240,7 @@ class Index extends React.Component {
             <div id="what-is">
                 <WhatIsProem />
             </div>
-            <div id="try">
+            <div id="quick-start">
                 <TryOut />
             </div>
         </div>

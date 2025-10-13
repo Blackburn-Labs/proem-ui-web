@@ -3,278 +3,516 @@ id: components
 title: UI Components
 sidebar_label: UI Components
 ---
-## Component vs Page
 
-React breaks the UI code into components. There are many types of components and ways you can create them. Proem-UI comes pre-configured with a specific component architecture set up that follows well researched common practices
+## Component Organization
 
-At the highest level, there are two sets of components:
+Proem-UI uses a clear directory structure to organize UI components based on their scope and reusability. Understanding where to place your components is crucial for maintaining a scalable codebase.
 
--   **Pages** (located in `/pages`) - This is the high level state of your app. Think of these as each screen in the app. Each screen should be in its own subdirectory (i.e. `/pages/Dashboard/index.js` or `/pages/About/index.js`). Each page subdirectory can also contain specialized components that are specific to those pages (i.e. /pages/Dashboard/DashboardSidebar.js ). However, we suggest keeping this to a minimum and favor putting most of your components in the `/components` directory. When in doubt, use `/components` 
--   **Components** (located in `/components`) - These are the shared (or potentially shared) components in your app. This can be anything from typographic content to dialogs, to entire calculator components.
+### Directory Conventions
 
-Use components as much as possible. Multiple small chunks of code are far easier to maintain then single large files of code. The smaller and more specialized/focused your components are, the better. 
+#### `/src/screens/` - Page-Level Components
 
-&gt; Suggestion: We suggest that only page components connect directly to actions (scripts in `/actions`) using the 
-&gt; `actionProvider` and reducers store. Those objects should then be passed into components. This keeps the access to
-&gt; these functions focused, and helps keep your components mutable/decoupled.
+Contains full-page views that represent the main states/routes of your application. Each screen typically corresponds to a route in your router configuration.
 
-## Pages
+**Examples:** `HomeScreen.jsx`, `DashboardScreen.jsx`, `AboutScreen.jsx`
 
-Pages are the main states of your app. They are given access to the global data store using `react-redux`'s `connect`
-function. They are given access to the action scripts using `actionProvider` from `actions`. For more information on 
-the data flow to/from pages, see [Redux/Data Store Guide](store.md) 
+**When to use:**
+- Creating a new route/page in your application
+- Building a complete view that fills the entire viewport
+- Composing multiple features into a single page
 
-Here is an example of a Page using `connect`/`actionProvider`:
+**Best practices:**
+- Each screen should be in its own file
+- Screens orchestrate features and layouts but contain minimal business logic
+- Keep screens focused on composition rather than implementation
 
-```react
+#### `/src/features/` - Feature-Specific Components
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+Contains all UI components related to a specific feature or domain. Each feature gets its own subdirectory with all related components.
 
-import Actions, { actionProvider } from 'actions';
-
-import { MyDomainArray } from '../../domain';
-
-const propMap = store => ({
-    list: store.items.list,
-    fetching: store.items.fetching,
-    fetched: store.items.fetched,
-});
-
-class MyPage extends Component {
-    static propTypes = {
-        list: PropTypes.instanceOf(MyDomainArray).isRequired,
-        fetching: PropTypes.bool.isRequired,
-        fetched: PropTypes.bool.isRequired,
-        actions: PropTypes.instanceOf(Actions).isRequired,
-    };
-
-    static defaultProps = {};
-
-    componentDidMount() {
-        const { actions: { AppStateActions } } = this.props;
-        AppStateActions.setTitle('Example Page');
-    }
-
-    render() {
-        const {
-            list, fetched, fetching,
-        } = this.props;
-
-        if (!fetched || fetching) return <div>Loading...</div>;
-
-        return (
-            <ul>
-                {list.map(item => (
-                    <li key="item.id">{item.text}</li>
-                ))}
-            </ul>
-        );
-    }
-}
-
-export default connect(propMap, actionProvider)(MyPage);
-
-
+**Example structure:**
+```
+/src/features/profile/
+├── ProfileDetails.jsx    # Detailed profile view
+├── ProfileList.jsx       # List of profiles
+├── ProfileCard.jsx       # Individual profile card
+└── ProfileForm.jsx       # Profile editing form
 ```
 
-## Components
+**When to use:**
+- Building components specific to a business domain or feature
+- Creating a set of related components that work together
+- Components that aren't reusable across different features
 
-There are two types of components you can create within React, [function components & class components](https://reactjs.org/docs/components-and-props.html). Function components allow a simpler lightweight component, while class components are more comprehensive.
+**Best practices:**
+- Group all related components in a single feature directory
+- Keep feature components focused on their specific domain
+- Feature components can import from `/src/components/` but not from other features
+- Consider splitting large features into sub-features if needed
 
-### Simplest Function Component
+#### `/src/components/` - Reusable UI Components
 
-The most basic of components:
+Contains generic, reusable components used across multiple features and screens. These should be highly composable and not tied to specific business logic.
 
-```react
+**Common subdirectories:**
+- `/src/components/layout/` - Layout components (AppBar, Footer, Sidebar, etc.)
+- `/src/components/common/` - Common UI components (Button, Card, Modal, etc.)
 
+**Examples:** Navigation bars, buttons, modals, cards, forms, data tables
+
+**When to use:**
+- Creating generic UI components that could be used anywhere
+- Building design system components
+- Components that provide common functionality across features
+
+**Best practices:**
+- Components should be highly reusable and generic
+- Avoid coupling to specific business logic or domain models
+- Accept data and callbacks via props
+- Document expected props and usage patterns
+- Keep components small and focused on a single responsibility
+
+### Decision Tree: Where Should My Component Live?
+
+1. **Is this a full-page view?** → `/src/screens/`
+2. **Is this specific to one feature/domain?** → `/src/features/[feature-name]/`
+3. **Is this reusable across multiple features?** → `/src/components/`
+
+**When in doubt, start with `/src/components/`.** It's easier to move a component to a feature directory later than to refactor a feature-specific component into a generic one.
+
+## Building Components with Material-UI
+
+Proem-UI uses [Material-UI (MUI) v7](https://mui.com/) as its component library. MUI provides a comprehensive set of pre-built, accessible components that follow Material Design principles.
+
+### Getting Started with Material-UI
+
+**Official Resources:**
+- [MUI Documentation](https://mui.com/) - Complete API reference and guides
+- [MUI Component Examples](https://mui.com/material-ui/getting-started/) - Live examples and code snippets
+
+### Basic Material-UI Component
+
+Here's a simple example using MUI components:
+
+```jsx
 import React from 'react';
+import { Button, Card, CardContent, Typography } from '@mui/material';
 
-export default function MyBasicComponent() {
+export default function WelcomeCard({ title, message, onAction }) {
     return (
-        <div>Hello World!</div>
-    );
-}
-
-```
-
-### Typical Function Component
-
-The previous example is helpful, and there are many cases when you’d want to create such a basic component to encapsulate your code as much as possible. However, here is a a more robust example of a function component:
-
-```react
-
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import {
-    Dialog, DialogContent, DialogTitle, DialogActions, Button, IconButton,
-} from '@material-ui/core';
-
-import { InfoIcon } from 'utils/Icons';
-
-export default function MyBasicDialog({ title, message }) {
-    const [isOpen, setOpen] = useState(false);
-
-    return (
-        <>
-            <IconButton onClick={() => { setOpen(true); }}>
-                <InfoIcon />
-            </IconButton>
-            <Dialog open={isOpen} onClose={() => { setOpen(false); }}>
-                <DialogTitle id="dialog-title">
+        <Card>
+            <CardContent>
+                <Typography variant="h5" component="h2" gutterBottom>
                     {title}
-                </DialogTitle>
-                <DialogContent>
+                </Typography>
+                <Typography variant="body1" color="text.secondary">
                     {message}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => { setOpen(false); }} color="primary">
-                        OK
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </>
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={onAction}
+                    sx={{ mt: 2 }}
+                >
+                    Get Started
+                </Button>
+            </CardContent>
+        </Card>
     );
 }
-
-MyBasicDialog.propTypes = {
-    title: PropTypes.string,
-    message: PropTypes.string.isRequired,
-};
-
-MyBasicDialog.defaultProps = {
-    title: 'My Basic Dialog',
-};
-
 ```
 
-This Uses:
+### Common Material-UI Components
 
--   [Classless React Component](https://reactjs.org/docs/hooks-intro.html) with a [state hook](https://reactjs.org/docs/hooks-state.html)
--   [Material-UI Dialogs](https://material-ui.com/components/dialogs/) & [Buttons](https://material-ui.com/components/buttons/)
+**Layout & Structure:**
+- [`Box`](https://mui.com/material-ui/react-box/) - Versatile container with system props
+- [`Container`](https://mui.com/material-ui/react-container/) - Centered content container with max-width
+- [`Grid`](https://mui.com/material-ui/react-grid/) - Responsive grid layout system
+- [`Stack`](https://mui.com/material-ui/react-stack/) - One-dimensional layout with spacing
 
-### Class Component
+**Data Display:**
+- [`Typography`](https://mui.com/material-ui/react-typography/) - Text rendering with semantic variants
+- [`Table`](https://mui.com/material-ui/react-table/) - Data tables with sorting and pagination
+- [`Card`](https://mui.com/material-ui/react-card/) - Content container with elevation
+- [`List`](https://mui.com/material-ui/react-list/) - Lists of items with various configurations
 
-For scenarios where your component needs to be more robust, a Class component adds more flexibility, but is a bit more verbose:
+**Inputs:**
+- [`TextField`](https://mui.com/material-ui/react-text-field/) - Text input with validation and styling
+- [`Button`](https://mui.com/material-ui/react-button/) - Interactive button with variants
+- [`Select`](https://mui.com/material-ui/react-select/) - Dropdown selection
+- [`Checkbox`](https://mui.com/material-ui/react-checkbox/), [`Radio`](https://mui.com/material-ui/react-radio-button/), [`Switch`](https://mui.com/material-ui/react-switch/) - Form controls
 
-```react
+**Feedback:**
+- [`Alert`](https://mui.com/material-ui/react-alert/) - Contextual feedback messages
+- [`Dialog`](https://mui.com/material-ui/react-dialog/) - Modal dialogs
+- [`Snackbar`](https://mui.com/material-ui/react-snackbar/) - Temporary notifications
+- [`CircularProgress`](https://mui.com/material-ui/react-progress/) - Loading indicators
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+### Using the sx Prop
 
-const styles = theme => ({
-    root: {
-        padding: theme.spacing(),
+Material-UI v5+ uses the `sx` prop for inline styling with access to the theme:
+
+```jsx
+import { Box, Typography } from '@mui/material';
+
+function StyledComponent() {
+    return (
+        <Box
+            sx={{
+                p: 2,                    // padding: theme.spacing(2)
+                bgcolor: 'primary.main', // background color from theme
+                borderRadius: 1,         // border-radius: theme.shape.borderRadius
+                boxShadow: 2,           // elevation shadow
+            }}
+        >
+            <Typography
+                sx={{
+                    color: 'primary.contrastText',
+                    fontWeight: 'bold',
+                }}
+            >
+                Styled Content
+            </Typography>
+        </Box>
+    );
+}
+```
+
+### Theming
+
+Customize your application's appearance by editing `/src/theme/theme.js`:
+
+```javascript
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#1976d2',
+        },
+        secondary: {
+            main: '#dc004e',
+        },
+    },
+    typography: {
+        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    },
+    shape: {
+        borderRadius: 8,
     },
 });
 
-class MessageBox extends Component {
-    static propTypes = {
-        message: PropTypes.string.isRequired,
-        classes: PropTypes.object.isRequired,
-    };
+export default theme;
+```
 
-    static defaultProps = {};
+### Responsive Design
 
-    state = {};
+Material-UI provides powerful responsive utilities:
 
-    render() {
-        const {
-            message, classes,
-        } = this.props;
+```jsx
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 
-        return (
-            <Typography className={classes.root}>
-                {message}
-            </Typography>
-        );
-    }
+function ResponsiveComponent() {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                gap: { xs: 1, sm: 2, md: 3 },
+                p: { xs: 1, sm: 2, md: 3 },
+            }}
+        >
+            {isMobile ? <MobileView /> : <DesktopView />}
+        </Box>
+    );
+}
+```
+
+## Component Best Practices
+
+### 1. Keep Components Small and Focused
+
+Each component should have a single, well-defined purpose:
+
+```jsx
+// Good: Focused component
+function UserAvatar({ user }) {
+    return (
+        <Avatar src={user.avatarUrl} alt={user.name}>
+            {user.name.charAt(0)}
+        </Avatar>
+    );
 }
 
-export default withStyles(styles)(MessageBox);
-
-
+// Good: Composed from smaller components
+function UserProfile({ user }) {
+    return (
+        <Card>
+            <UserAvatar user={user} />
+            <UserDetails user={user} />
+            <UserActions user={user} />
+        </Card>
+    );
+}
 ```
 
-### Further Reading:
+### 2. Use Composition Over Complexity
 
--   [Function & Class Components](https://reactjs.org/docs/components-and-props.html)
--   [Classless React Component](https://reactjs.org/docs/hooks-intro.html)
--   [State Hook](https://reactjs.org/docs/hooks-state.html)
--   [Material-UI](https://material-ui.com/)
+Build complex UIs by composing simple components:
 
-## Component Storybook
+```jsx
+// Reusable layout component
+function FeatureLayout({ icon, title, description, action }) {
+    return (
+        <Box sx={{ textAlign: 'center', p: 3 }}>
+            {icon}
+            <Typography variant="h5" sx={{ mt: 2 }}>
+                {title}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                {description}
+            </Typography>
+            {action && <Box sx={{ mt: 2 }}>{action}</Box>}
+        </Box>
+    );
+}
 
-[Storybook](https://storybook.js.org/) is an incredibly powerful tool used to test individual UI components in isolation as well as create a visual component library for your project. It comes packaged and preconfigured with Proem-UI. To start Storybook run:
-
-```shell script
-
- npm run storybook--&gt;
-
+// Usage
+<FeatureLayout
+    icon={<CheckCircleIcon fontSize="large" color="primary" />}
+    title="Fast & Reliable"
+    description="Built for performance and scalability"
+    action={<Button>Learn More</Button>}
+/>
 ```
 
-Once Storybook is started it will automatically open the browser for you (or visit: `http://localhost:6006/`). Once started, it will live-reload changes you make to your components. 
+### 3. Separate Business Logic from Presentation
 
-Each of your components should have a storybook. For example, the `MyBasicDialog` component we created in the earlier example would be in `/components/MyBasicDialog/index.j`s. Alongside this component there should be a `/components/MyBasicDialog/index.story.js`:
+Keep components presentational and pass data/handlers as props:
 
-```react
+```jsx
+// Good: Presentational component
+function TaskList({ tasks, onTaskComplete, onTaskDelete }) {
+    return (
+        <List>
+            {tasks.map(task => (
+                <TaskItem
+                    key={task.id}
+                    task={task}
+                    onComplete={() => onTaskComplete(task.id)}
+                    onDelete={() => onTaskDelete(task.id)}
+                />
+            ))}
+        </List>
+    );
+}
 
-import React from 'react';
-import MyBasicDialog from '.';
+// Feature component handles business logic
+function TaskManager() {
+    const { tasks } = useSelector(state => state.tasks);
+    const dispatch = useDispatch();
 
-export default { title: 'MyBasicDialog' };
+    const handleComplete = (taskId) => {
+        dispatch(completeTask(taskId));
+    };
 
-export const withMessage = () => <MyBasicDialog message="Hello World!" />;
+    const handleDelete = (taskId) => {
+        dispatch(deleteTask(taskId));
+    };
 
-export const withTitleAndMessage = () => (
-    <MyBasicDialog
-        title="Hello"
-        message="World!"
-    />
-);
-
+    return (
+        <TaskList
+            tasks={tasks}
+            onTaskComplete={handleComplete}
+            onTaskDelete={handleDelete}
+        />
+    );
+}
 ```
 
-### Further Reading:
+### 4. Document Component Props
 
--   [Intro to Storybook](https://www.learnstorybook.com/intro-to-storybook/)
--   [Storybook Docs](https://storybook.js.org/docs/basics/introduction/)
+Use PropTypes or TypeScript to document expected props:
 
-## Icons
+```jsx
+import PropTypes from 'prop-types';
 
-It is strongly suggested that all icons in your application be SVG icons. Your Proem-UI app can use 
-[Material-UI Icons](https://material-ui.com/components/icons/), but also provides an optional method for introducing 
-your own custom SVG based icons. 
+function NotificationBanner({ message, severity, onClose }) {
+    return (
+        <Alert severity={severity} onClose={onClose}>
+            {message}
+        </Alert>
+    );
+}
 
-Add each of your custom icons to `utils/Icons`, for example this `ArrowDownIcon.js`:
+NotificationBanner.propTypes = {
+    message: PropTypes.string.isRequired,
+    severity: PropTypes.oneOf(['error', 'warning', 'info', 'success']),
+    onClose: PropTypes.func,
+};
 
-```react
+NotificationBanner.defaultProps = {
+    severity: 'info',
+    onClose: undefined,
+};
 
-import React from 'react';
-import SvgIcon from '@material-ui/core/SvgIcon';
-
-export default props => (
-    <SvgIcon {...props}>
-        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
-    </SvgIcon>
-);
-
-
+export default NotificationBanner;
 ```
 
-Then add your icon to `utils/Icons/index.js`. You can now access you cusotm icons inside any component:
+### 5. Handle Loading and Error States
 
-```react
+Always account for asynchronous data:
 
-import { ArrowDownIcon } from 'utils/Icons';
-...
-<ArrowDownIcon />
+```jsx
+function UserProfileScreen() {
+    const { user, loading, error } = useSelector(state => state.profile);
 
+    if (loading) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    if (error) {
+        return (
+            <Alert severity="error">
+                Failed to load profile: {error.message}
+            </Alert>
+        );
+    }
+
+    return <ProfileDetails user={user} />;
+}
 ```
 
-### Further Reading:
+## Common Patterns
 
--   [Material-UI Icons](https://material-ui.com/components/icons/)
--   [Material-UI SvgIcon](https://material-ui.com/api/svg-icon/)
+### Layout Wrapper
+
+Create consistent layouts across screens:
+
+```jsx
+function ScreenLayout({ title, actions, children }) {
+    return (
+        <Container maxWidth="lg">
+            <Box sx={{ py: 4 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+                    <Typography variant="h4" component="h1">
+                        {title}
+                    </Typography>
+                    {actions && <Box>{actions}</Box>}
+                </Box>
+                {children}
+            </Box>
+        </Container>
+    );
+}
+
+// Usage
+function DashboardScreen() {
+    return (
+        <ScreenLayout
+            title="Dashboard"
+            actions={<Button>Export Data</Button>}
+        >
+            <DashboardContent />
+        </ScreenLayout>
+    );
+}
+```
+
+### Feature Toggle
+
+Conditionally render features:
+
+```jsx
+function FeatureGate({ feature, children, fallback = null }) {
+    const features = useSelector(state => state.features);
+
+    if (!features[feature]) {
+        return fallback;
+    }
+
+    return children;
+}
+
+// Usage
+<FeatureGate feature="advancedAnalytics">
+    <AnalyticsDashboard />
+</FeatureGate>
+```
+
+### Error Boundary
+
+Wrap components to catch errors gracefully:
+
+```jsx
+import { Component } from 'react';
+import { Alert, Button } from '@mui/material';
+
+class ErrorBoundary extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+    }
+
+    static getDerivedStateFromError(error) {
+        return { hasError: true };
+    }
+
+    componentDidCatch(error, errorInfo) {
+        console.error('Error caught by boundary:', error, errorInfo);
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return (
+                <Alert
+                    severity="error"
+                    action={
+                        <Button color="inherit" size="small" onClick={() => window.location.reload()}>
+                            Reload
+                        </Button>
+                    }
+                >
+                    Something went wrong. Please try refreshing the page.
+                </Alert>
+            );
+        }
+
+        return this.props.children;
+    }
+}
+```
+
+## Learning Resources
+
+**Material-UI:**
+- [MUI Documentation](https://mui.com/) - Official docs with comprehensive examples
+- [MUI Component Examples](https://mui.com/material-ui/getting-started/) - Live interactive examples
+- [MUI Templates](https://mui.com/material-ui/getting-started/templates/) - Complete page templates
+
+**React Best Practices:**
+- [React Documentation](https://react.dev/) - Official React docs
+- [React Component Patterns](https://react.dev/learn/thinking-in-react) - How to think in React
+
+**Design System Resources:**
+- [Material Design Guidelines](https://m3.material.io/) - Design principles behind Material-UI
+- [Component Composition](https://react.dev/learn/passing-props-to-a-component) - Building with composition
+
+## Summary
+
+Proem-UI's component architecture provides a clear structure for building scalable React applications:
+
+- **Screens** (`/src/screens/`) for full-page views
+- **Features** (`/src/features/`) for domain-specific components
+- **Components** (`/src/components/`) for reusable UI elements
+- **Material-UI** provides a comprehensive component library
+- **Best practices** emphasize composition, separation of concerns, and maintainability
+
+Start building by choosing the right directory for your component, leverage Material-UI's powerful components, and follow React best practices for a maintainable codebase.

@@ -5,68 +5,129 @@ sidebar_label: Introduction
 ---
 # Proem UI Framework
 
-This is a ReactJS project using:
+A modern React application boilerplate built with the latest technologies and best practices. This framework is designed for rapid development of Progressive Web Applications (PWA) with Parse Server as the backend.
 
--   [Redux](http://redux.js.org/) - Maintains the state of the app.
--   [Babel](https://babeljs.io/) - Compiles the app.
--   [Webpack](https://webpack.github.io/) - Bundles the app. 
--   [Jasmine](https://jasmine.github.io/) / [Karma](https://karma-runner.github.io) - Tests the app. 
--   [Axios](https://github.com/mzabriskie/axios) - Makes promise base HTTP calls for the app. 
--   [Material-ui](http://www.material-ui.com/) - Makes the app pretty.
+## Technology Stack
 
-## Run Project
+- **[React 19.1.1](https://react.dev/)** - Modern UI framework with latest features
+- **[Material-UI (MUI) v7](https://mui.com/)** - Comprehensive component library
+- **[React Router v7](https://reactrouter.com/)** - Client-side routing
+- **[Redux](https://redux.js.org/)** - Centralized state management
+- **[Vite](https://vite.dev/)** - Next-generation build tool and dev server
+- **[Vitest](https://vitest.dev/)** - Modern testing framework
+- **[Parse Platform](https://parseplatform.org/)** - Backend-as-a-Service (can be adapted to other backends)
 
-If you have not done so already, run:
+## Quick Start
 
-```shell
+### 1. Clone and Install
 
-$ npm install
+```bash
+# Clone this repository
+git clone https://github.com/Blackburn-Labs/proem-ui.git your-project-name
 
+# Navigate into the directory
+cd your-project-name
+
+# Install dependencies
+npm install
+
+# Note: Playwright browsers (~200MB) will be downloaded automatically during installation
+# This only happens once and enables E2E testing out of the box
 ```
 
-Once done, run:
+### 2. Configure Environment
 
+Create a `.env` file in the root directory (see `.env.example` for template):
+
+```env
+API_URL=your_api_url
 ```
 
-$ npm start
+### 3. Start Development Server
 
+```bash
+npm start
 ```
 
-This will build the project and start it in a browser.
+Your application will be available at `http://localhost:5173`
 
-Before committing any changes to your project, please run unit tests and lint to check for code compliance:
+### 4. Disconnect from Boilerplate Repository
 
-```shell
+After cloning, you'll want to disconnect from the original boilerplate repository and set up your own:
 
-$ npm run test
-$ npm run lint
+```bash
+# Remove the original remote
+git remote remove origin
 
+# Initialize fresh git history (optional)
+rm -rf .git
+git init
+git add .
+git commit -m "Initial commit from Proem UI boilerplate"
+
+# Add your own repository
+git remote add origin your-repo-url
+git push -u origin master
 ```
 
-## Directory Layout
+**Alternative: Download ZIP**
 
-The web directory contains the web UI.
+You can also simply download the boilerplate as a ZIP file from the GitHub repository using the "Download ZIP" button. This gives you a clean start without any git connection.
 
-```shell
+## Development Commands
 
+```bash
+# Start development server
+npm start
+
+# Build for production
+npm build
+
+# Preview production build
+npm preview
+
+# Run unit tests
+npm test
+
+# Run tests in watch mode
+npm test:watch
+
+# Run tests with UI
+npm test:ui
+
+# Run tests with coverage
+npm test:coverage
+
+# Run E2E tests (browsers installed automatically via postinstall)
+npm run test:e2e
+
+# Run E2E tests in UI mode
+npm run test:e2e:ui
+
+# Lint and fix code
+npm run lint
+```
+
+## Project Structure
+
+```
 /
-├── /actions/                   # Redux action function library
-├── /components/                # Shared or generic UI components
-│   ├── /Component1/            # A components in the app
-│   ├── /Component2/            # A components in the app
-│   └── /...                    # Each component should get its own folder (that matches the name of the component)
-├── /css/                       # Static CSS and theme files
-├── /domain/                    # The app's domian objects
-├── /pages/                     # React components for web pages
-│   ├── /page1/                 # A screen/state in the app
-│   ├── /page2/                 # A screen/state in the app
-│   └── /...                    # etc.
-├── /reducer/                   # Redux reducers in charge of updating your data store
-├── /utils/                     # Utility and helper classes
-│── index.html                  # React application entry point
-│── package.json                # The list of project dependencies and NPM scripts
-│── renderer.js                 # This root application script, will be bundled into `renderer-bundle.js` using webpack
-│── store.js                    # The root Redux data store
-└── webpack.*.js                # Bundling and optimization settings for Webpack
-
+├── /public/                # Static assets (icons, images, manifest)
+├── /src/
+│   ├── /components/        # Reusable app-wide UI components
+│   ├── /domain/            # Domain models extending BasicDomain/BasicArray
+│   ├── /features/          # Feature-specific components
+│   ├── /router/            # Routing configuration
+│   ├── /screens/           # Full page components/views
+│   ├── /store/             # Redux reducers, actions, and selectors
+│   ├── /theme/             # Global styles and theme configuration
+│   ├── /utils/             # Utility functions and helpers
+│   ├── App.jsx             # Root application component
+│   └── main.jsx            # Application entry point
+├── /tests/                 # Test files
+├── .env.example            # Environment variables template
+├── package.json            # Project dependencies and scripts
+└── vite.config.js          # Vite configuration
 ```
+
+For detailed guidance on where to place your UI components (`/screens/`, `/features/`, `/components/`), see the [UI Components](/docs/components) documentation.

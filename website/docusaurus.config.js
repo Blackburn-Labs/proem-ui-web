@@ -32,10 +32,9 @@ module.exports={
           "showLastUpdateAuthor": true,
           "showLastUpdateTime": true,
           "path": "../docs",
-          "sidebarPath": "./sidebars.json"
-        },
-        "blog": {
-          "path": "blog"
+          "sidebarPath": "./sidebars.json",
+          "sidebarCollapsible": true,
+          "sidebarCollapsed": false
         },
         "theme": {
           "customCss": "./src/css/customTheme.css"
@@ -45,6 +44,11 @@ module.exports={
   ],
   "plugins": [],
   "themeConfig": {
+    "colorMode": {
+      "defaultMode": "dark",
+      "disableSwitch": false,
+      "respectPrefersColorScheme": false
+    },
     "navbar": {
       "title": "Proem-UI",
       "logo": {
@@ -75,18 +79,8 @@ module.exports={
     },
     "image": "img/undraw_online.svg",
     "footer": {
-      "links": [
-        {
-          "title": "Community",
-          "items": [
-            {
-              "label": "Twitter",
-              "to": "https://twitter.com/ProemUI"
-            }
-          ]
-        }
-      ],
-      "copyright": "Copyright © 2023 Proem-UI",
+      "links": [],
+      "copyright": `Copyright © ${new Date().getFullYear()} Proem-UI`,
       "logo": {
         "alt": 'Proem-UI Logo',
         "src": "img/Proem-UI-Icon.svg",

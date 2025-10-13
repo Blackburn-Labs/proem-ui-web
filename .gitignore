@@ -11,6 +11,13 @@
 dist
 node_modules
 build
+.docusaurus
 
 # OS
 .DS_Store
+
+# AI Generted
+CLAUDE.local.md
+.claude
+.obsidian
+/examples/

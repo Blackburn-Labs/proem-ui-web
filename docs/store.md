@@ -2,370 +2,195 @@
 id: store
 title: "Redux/Data Store"
 ---
-## Core Principle
 
-The flow of information in a ReactJS app, should go in a single direction:
-![alt-text](assets/store-cycle.png)
-Here, the UI invokes an action, which in turn triggers a reducer, which updates a data store, which updates the UI. 
+## Overview
 
-At first this may seem like a lot work to simply make changes to data. However, making the data in your app always flow in a
-single direction like this will make debugging your app far easier, and will vastly improve its scalability. 
+Proem-UI uses [Redux](https://redux.js.org/) for centralized state management with strict patterns that ensure consistency, maintainability, and seamless integration with Parse Platform. This guide covers the Redux patterns, coding standards, and best practices used throughout the framework.
 
-Of course, most apps will have at least one backend system they will interact with. If we look at the same flow, with an API 
-introduced, it illustrates how clean and powerful this flow becomes:
-![alt-text](assets/store-cycle-with-backend.png)
+## Core Principle: Unidirectional Data Flow
 
-&gt; Suggestion: If you are new ro React and Redux, we suggest first watching [LearnCode.academy](https://twitter.com/learncodeacad)'s 
-&gt; tutorial series in [React JS](https://youtu.be/MhkGQAoc7bc?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b) and [Redux](https://youtu.be/1w-oQ-i1XB8?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b).
+The flow of information in a Proem-UI app follows a single direction:
 
-## Each Flow Step
+![Redux Data Flow](assets/store-cycle.png)
 
-### Store -&gt; UI
+Here, the UI invokes an action, which triggers a reducer, which updates the data store, which updates the UI. While this may seem like extra work initially, making data flow in a single direction makes debugging far easier and vastly improves scalability.
 
-First we need to look at the app’s data store and how it works, then we can look at how that data store is fed to the UI.
+When working with backend systems, this flow becomes even more powerful:
 
-#### Data Store
+![Redux Data Flow with Backend](assets/store-cycle-with-backend.png)
 
-By leveraging [Redux](https://redux.js.org/) your Proem-UI will have a single central data store. This store is created 
-within the `/store.js` right on the root of your project. 
+> **New to React and Redux?** We recommend watching [LearnCode.academy](https://twitter.com/learncodeacad)'s tutorial series on [React JS](https://youtu.be/MhkGQAoc7bc?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b) and [Redux](https://youtu.be/1w-oQ-i1XB8?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b) for a solid foundation.
 
-If you take a look at `/store.js`, you will see it imports the reducers for setting the store’s initial state as well 
-as manipulating it. We will see more on that below in the “reducer -&gt; store” section. 
+## File Structure and Naming
 
-&gt; Note: The `/store.js` comes preconfigured with `redux-logger`, which will only be used in debug/developer mode. This 
-&gt; will automatically output any changes to your data store to the browser console. This makes debugging your app far
-&gt; easier. 
+Store files should be named after their domain (e.g., `workspace.js`, `project.js`, `organizations.js`) and placed in the `src/store` directory.
 
-#### Connecting Store to UI
-
-The store is bright into your app via the `rendered.js`, which passes the store into the `<Provider>` component, which is wrapped around your app and makes the store accessible to all the app’s components.
-
-This will give any component access to the store by using the `connect` function of `react-redux`. Here is an example:
+All store files must follow this export pattern:
 
 ```javascript
+// Named exports for actions and selectors
+export const actions = { /* ... */ };
+export const selectors = { /* ... */ };
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-import { MyDomainArray } from '../../domain';
-
-const propMap = store => ({
-    list: store.items.list,
-    fetching: store.items.fetching,
-    fetched: store.items.fetched,
-});
-
-class MyPage extends Component {
-    static propTypes = {
-        list: PropTypes.instanceOf(MyDomainArray).isRequired,
-        fetching: PropTypes.bool.isRequired,
-        fetched: PropTypes.bool.isRequired,
-    };
-
-    static defaultProps = {};
-
-    render() {
-        const {
-            list, fetched, fetching,
-        } = this.props;
-
-        if (!fetched || fetching) return (<div>Loading...</div>);
-
-        return (
-            <ul>
-                {list.map(item => (
-                    <li key="item.id">{item.text}</li>
-                ))}
-            </ul>
-        );
-    }
-}
-
-export default connect(propMap)(MyPage);
-
-
+// Reducer as default export
+export default reducer;
 ```
 
-This example creates a page component called MyPage, and connects the data store to it, mapping specific data store 
-fields using `propsMap`. The store mapping maps 3 fields from a store called items: `fetching`, `fetched`, and `list`. 
-The `list` is a `MyDomainArray`, we will see more on domain objects below. It simply loops the list and outputs each 
-item in it. 
+## Core Principles
 
-&gt; Suggestion: For keeping your connections clear and clean, we suggest that for most apps only connect your pages 
-&gt; (components in `/pages`) directly to the store. All data passed into components (components in `/components`) be done 
-&gt; as properties. This can help keep the data flow clear and avoid complicated debugging scenarios. It also makes your 
-&gt; components more decoupled and less dependent on the specifics of the data store. 
+### 1. Action Type Constants
 
-#### Further Reading
-
--   Learn more about [Redux Stores](https://redux.js.org/basics/store)
-
-### UI -&gt; Actions
-
-Actions are a collection of functions that can be called to change the state of the application, or otherwise perform external activities. For example, calling an API method. 
-
-All actions are in `/actions` and are aggregated and made conveniently accessible via the `actions/index.js`. In Redux 
-all action methods need to be "bound", which Proem-UI makes easy with the `actionProvider` method, which we cover below.
-
-#### Creating Actions
-
-First, let’s look at how to make a new action function. We will make a function that will be used to update the title of the application. 
-
-In file `appStateActions.js`:
+Always define constants for action types to prevent typos and mismatches:
 
 ```javascript
-
-import { asPromise } from './utils';
-
-export function setTitle(title) {
-    return {
-        type: 'SET_TITLE',
-        payload: asPromise(title),
-    };
-}
-
+// Action type constants
+const LIST = 'LIST_ORGANIZATIONS';
+const ADD = 'ADD_ORGANIZATION';
+const UPDATE = 'UPDATE_ORGANIZATION';
+const DELETE = 'DELETE_ORGANIZATION';
+const SET = 'SET_ORGANIZATION';
 ```
 
-This creates a function called `setTitle`. All actions need to return an object that contains a `type` and `payload` (and can optionally include other things, for example you may include a `meta` property). The `asPromise` function is a convenience function provided by Proem-UI to make it easier to turn plan payloads into promises so that actions can be synchronized if needed. 
+### 2. Domain Objects in State
 
-To make accessing all your actions easier, make sure to add `actions/appStateActions.js` to `actions/index.js`. The index is already created for you, simply add your actions to the `actionsToBind` object:
+All objects in the Redux store must be [domain objects](/docs/domain) that extend `BasicDomain` or `BasicArray`. This is critical for Parse integration and React change detection.
 
 ```javascript
-
-...
-import * as AppStateActions from './appStateActions';
-...
-const actionsToBind = {
-    AppStateActions,
+// Initial state always uses domain objects
+const initialState = {
+    list: {
+        data: new OrganizationArray(), // Domain array, not plain []
+        isLoading: false,
+        isLoaded: false,
+    },
+    selected: null, // Will be Organization domain object when set
+    error: null,
 };
-...
-
 ```
 
-#### API Actions
+For details on domain objects and their methods, see the [Domain Objects](/docs/domain) documentation
 
-Most apps will need to fire actions that invoke a API call. This is easily done in Proem-UI using [Axios](https://github.com/axios/axios). 
+## Standard Reducer Template
 
-Example `action/itemActions.js`:
-
-```javascript
-
-import axios from 'axios';
-import Config from 'Config';
-
-import { generateHeader } from './utils';
-
-const baseUrl = `${Config.apiUrl}/items`;
-const baseName = 'ITEMS';
-
-export function add(item) {
-    const headers = generateHeader();
-    return {
-        type: `${baseName}_ADD`,
-        meta: item,
-        payload: axios.post(baseUrl, item.toJSON(), { headers }),
-    };
-}
-
-export function update(item) {
-    const headers = generateHeader();
-    return {
-        type: `${baseName}_UPDATE`,
-        meta: item,
-        payload: axios.put(`${baseUrl}/${item.id}`, item.toJSON(), { headers }),
-    };
-}
-
-export function get(id) {
-    const headers = generateHeader();
-    return {
-        type: `${baseName}_GET`,
-        meta: id,
-        payload: axios.get(`${baseUrl}/${id}`, { headers }),
-    };
-}
-
-export function list() {
-    const headers = generateHeader();
-    return {
-        type: `${baseName}_LIST`,
-        payload: axios.get(baseUrl, { headers }),
-    };
-}
-
-export function remove(item) {
-    const headers = generateHeader();
-    return {
-        type: `${baseName}_REMOVE`,
-        meta: item,
-        payload: axios.delete(`${baseUrl}/${item.id}`, { headers }),
-    };
-}
-
-
-```
-
-In this we use `generateHeader` as another convenience method. Place your API’s expected HTTP headers in this function. Proem-UI comes with an example, based on Parse Platform. 
-
-As before, make sure to add your new actions file to `actions/index.js`:
+Every reducer file should follow this complete example:
 
 ```javascript
+import { createSelector } from '@reduxjs/toolkit';
+import { Parse } from '../utils/parseProvider';
+import { Organization, OrganizationArray } from '../../domain';
 
-...
-import * as AppStateActions from './appStateActions';
-import * as ItemActions from './itemActions';
-...
-const actionsToBind = {
-   AppStateActions,
-   ItemActions,
-};
-...
+// Action type constants
+const LIST = 'LIST_ORGANIZATIONS';
+const ADD = 'ADD_ORGANIZATION';
+const UPDATE = 'UPDATE_ORGANIZATION';
+const DELETE = 'DELETE_ORGANIZATION';
+const SET = 'SET_ORGANIZATION';
 
-```
-
-#### Connecting Actions to UI
-
-```javascript
-
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-import Actions, { actionProvider } from 'actions';
-
-import { MyDomainArray } from '../../domain';
-
-const propMap = store => ({
-    list: store.items.list,
-    fetching: store.items.fetching,
-    fetched: store.items.fetched,
-});
-
-class MyPage extends Component {
-    static propTypes = {
-        list: PropTypes.instanceOf(MyDomainArray).isRequired,
-        fetching: PropTypes.bool.isRequired,
-        fetched: PropTypes.bool.isRequired,
-        actions: PropTypes.instanceOf(Actions).isRequired,
-    };
-
-    static defaultProps = {};
-
-    componentDidMount() {
-        const { actions: { AppStateActions } } = this.props;
-        AppStateActions.setTitle('Example Page');
-    }
-
-    render() {
-        const {
-            list, fetched, fetching,
-        } = this.props;
-
-        if (!fetched || fetching) return <div>Loading...</div>;
-
-        return (
-            <ul>
-                {list.map(item => (
-                    <li key="item.id">{item.text}</li>
-                ))}
-            </ul>
-        );
-    }
-}
-
-export default connect(propMap, actionProvider)(MyPage);
-
-
-```
-
-The `actionProvider` is the Proem-UI provided function used to easily load in and bind your applications action objects 
-for you.  
-
-&gt; Suggestion: Much like connecting data stores, we suggest that only page components (components in `/pages`) connect 
-&gt; directly to actions using the `actionProvider` and that the actions object is then passed into components (components 
-&gt; in `/components`).
-
-#### Further Reading
-
--   Learn more about [Redux Actions](https://redux.js.org/basics/actions)
--   Learn more about [Axios](https://github.com/axios/axios)
-
-### Actions -&gt; Reducers -&gt; Store
-
-We’ve now covered how a UI can connect and display information from the application’s data stores, and how to invoke an action. Now we can look at how we capture those actions being requested to react to them. This is done with reducers
-
-All reducers are stored in `reducer` and are joined together for easy export in `reducer/index.js`. Proem-UI comes configured so that once you have included your reducer to `reducer/index.js` it will then be automatically included as a part of your application’s store.
-
-Continuing with our previous examples for setting an application title, here is `reducer/appStateReducer.js`:
-
-```javascript
-
-const initState = {
-    title: 'Initial Title',
+const initialState = {
+    list: {
+        data: new OrganizationArray(),
+        isLoading: false,
+        isLoaded: false,
+    },
+    selected: null,
+    error: null,
 };
 
-export default function reducer(state = initState, action) {
-    switch (action.type) {
-        case 'SET_TITLE': {
-            return { ...state, title: action.payload };
+export function reducer(state = initialState, action) {
+    const { type, payload, meta } = action;
+
+    switch (type) {
+        case 'LOGOUT_USER_PENDING': {
+            return initialState;
         }
 
-        default: {
-            return state;
-        }
-    }
-}
-
-```
-
-This initializes the title as 'Initial Title' and then updates it whenever it sees the 'SET_TITLE' action type.
-
-To continue our previous examples of displaying a list of items, this would be the `reducer/itemReducer.js`:
-
-```javascript
-
-import Config from 'Config';
-import { MyDomainArray, MyDomainObject } from '../domain';
-
-const baseName = 'ITEMS';
-
-const initState = {
-    list: new MyDomainArray(),
-    fetching: false,
-    fetched: false,
-};
-
-export default function reducer(state = initState, action) {
-    switch (action.type) {
-
-        case `${baseName}_LIST_PENDING`: {
-            return { ...state, fetching: true };
-        }
-
-        case `${baseName}_LIST_FULFILLED`: {
-            const list = new MyDomainArray(action.payload.data.results);
+        case `${LIST}_PENDING`: {
             return {
-                ...state, list, fetching: false, fetched: true,
+                ...state,
+                list: {
+                    ...state.list,
+                    isLoading: true,
+                },
+                error: null,
             };
         }
 
-        case `${baseName}_UPDATE_FULFILLED`: {
-            const list = state.list.clone();
-            const obj = new MyDomainObject(action.payload.data);
-            list.update(obj);
-            return { ...state, list };
+        case `${LIST}_FULFILLED`: {
+            return {
+                ...state,
+                list: {
+                    data: new OrganizationArray(payload),
+                    isLoading: false,
+                    isLoaded: true,
+                },
+                error: null,
+            };
         }
 
-        case `${baseName}_ADD_FULFILLED`: {
-            const list = state.list.clone();
-            const obj = new MyDomainObject(action.payload.data);
-            list.add(obj);
-            return { ...state, list };
+        case `${LIST}_REJECTED`: {
+            return {
+                ...state,
+                list: {
+                    data: new OrganizationArray(),
+                    isLoading: false,
+                    isLoaded: true,
+                },
+                error: payload?.message || 'Failed to fetch organizations',
+            };
         }
 
-        case `${baseName}_REMOVE_FULFILLED`: {
-            const list = state.list.clone();
-            list.remove(new MyDomainObject({ id: action.meta.id }));
-            return { ...state, list };
+        case `${ADD}_PENDING`:
+        case `${UPDATE}_PENDING`:
+        case `${DELETE}_PENDING`: {
+            return {
+                ...state,
+                error: null,
+            };
+        }
+
+        case `${ADD}_REJECTED`:
+        case `${UPDATE}_REJECTED`: {
+            return {
+                ...state,
+                error: payload?.message || 'Failed to create/update organization',
+            };
+        }
+
+        case `${ADD}_FULFILLED`:
+        case `${UPDATE}_FULFILLED`: {
+            return {
+                ...state,
+                list: {
+                    ...state.list,
+                    data: state.list.data.clone().addUpdate(payload),
+                },
+                selected: payload.id ? payload.id : state.selected,
+            };
+        }
+
+        case `${DELETE}_FULFILLED`: {
+            return {
+                ...state,
+                list: {
+                    ...state.list,
+                    data: state.list.data.clone().remove(meta?.organization?.id),
+                },
+                selected: state.selected === meta?.organization?.id ? null : state.selected,
+            };
+        }
+
+        case `${DELETE}_REJECTED`: {
+            return {
+                ...state,
+                error: payload?.message || 'Failed to delete organization',
+            };
+        }
+
+        case `${SET}_FULFILLED`: {
+            return {
+                ...state,
+                selected: payload,
+            };
         }
 
         default: {
@@ -374,48 +199,295 @@ export default function reducer(state = initState, action) {
     }
 }
 
+export const actions = {
+    list: (status = Organization.STATUS_ACTIVE) => ({
+        type: LIST,
+        payload: new Parse.Query(Organization)
+            .equalTo('status', status)
+            .select(Organization.FIELDS)
+            .findAll()
+    }),
+    create: (organization) => ({
+        type: ADD,
+        meta: { organization },
+        payload: organization.save(),
+    }),
+    update: (organization) => ({
+        type: UPDATE,
+        meta: { organization },
+        payload: organization.save(),
+    }),
+    remove: (organization) => ({
+        type: DELETE,
+        meta: { organization },
+        payload: organization.destroy(),
+    }),
+    set: (id) => ({
+        type: SET,
+        meta: { id },
+        payload: Promise.resolve(id),
+    }),
+}
 
+export const selectors = {
+    list: (state) => state.organizations.list.data,
+    listMeta: createSelector(
+        [(state) => state.organizations.list.isLoading, (state) => state.organizations.list.isLoaded],
+        (isLoading, isLoaded) => ({
+            isLoading,
+            isLoaded,
+        })
+    ),
+    current: createSelector(
+        [(state) => state.organizations.list.data, (state) => state.organizations.selected],
+        (organizationsData, selectedId) => {
+            if (!selectedId) return null;
+            return organizationsData.find(org => org.id === selectedId) || null;
+        }
+    ),
+    currentId: (state) => state.organizations.selected,
+    error: (state) => state.organizations.error,
+}
+
+export default reducer;
 ```
 
-You may have noticed that even though the actions fire events with types `ITEMS_ADD`, `ITEMS_LIST`, etc, the reducer
-is watching for  `ITEMS_ADD_FULFILLED`, `ITEMS_LIST_FULFILLED`. This is a special addition made for actions that have a 
-promise for a payload, like Axios calls to API methods. Actions with promises as paylaods will have 3 possible types fires:
+## Action Patterns
 
--   `*_PENDING` - Fired when the action first starts
--   `*_FULFILLED` - Fired when the action completes successfully
--   `*_REJECTED` - Fire if thew action results in an error
+### Local Functions
 
-For more information see [redux-promise-middleware](https://github.com/pburtchaell/redux-promise-middleware/blob/HEAD/docs/introduction.md).
-
-Both of these reducers need to be added to `reducer/index.js` to make then accessible in by the application:
+For actions that resolve locally without API calls:
 
 ```javascript
-
-import { combineReducers } from 'redux';
-
-import appState from './appStateReducer';
-import item from './itemReducer';
-
-export default combineReducers({
-    appState,
-    item,
-});
-
-
+export const actions = {
+    clear: () => ({
+        type: 'CLEAR_SOMETHING',
+        payload: Promise.resolve(null)
+    }),
+    set: (id) => ({
+        type: SET,
+        meta: { id },
+        payload: Promise.resolve(id),
+    }),
+};
 ```
 
-#### Further Reading
+### Parse Query Actions
 
--   Learn more about [Redux Reducers](https://redux.js.org/basics/reducers)
--   Learn more about [Redux Stores](https://redux.js.org/basics/store)
--   Learn more about [redux-promise-middleware](https://github.com/pburtchaell/redux-promise-middleware/blob/HEAD/docs/introduction.md)
+Prefer Parse Queries over cloud functions when possible:
 
-## More Resources
+```javascript
+export const actions = {
+    // Get single record
+    get: (id) => ({
+        type: 'GET_CAR',
+        meta: { id },
+        payload: new Parse.Query(Car)
+            .select(Car.FIELDS)
+            .get(id),
+    }),
 
-If you are new to React, we suggest watching through these 14 videos on React & Flux by [LearnCode.academy](https://twitter.com/learncodeacad):
+    // List multiple records
+    list: (skip = 0, limit = 50) => ({
+        type: 'LIST_CARS',
+        meta: { skip, limit },
+        payload: new Parse.Query(Car)
+            .skip(skip)
+            .limit(limit)
+            .select(Car.FIELDS)
+            .find(),
+    }),
 
--   [React JS Tutorial](https://youtu.be/MhkGQAoc7bc?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b)
+    // Save single record (create or update)
+    save: (car) => ({
+        type: 'SAVE_CAR',
+        meta: { car },
+        payload: car.save(),
+    }),
 
-After, we would also suggest take a look at these 7 videos on Redux within React, also by [LearnCode.academy](https://twitter.com/learncodeacad):
+    // Save multiple records
+    saveAll: (cars) => ({
+        type: 'SAVE_ALL_CARS',
+        meta: { cars },
+        payload: Parse.Object.saveAll(cars),
+    }),
 
--   [Redux Tutorial](https://youtu.be/1w-oQ-i1XB8?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b)
+    // Delete record
+    remove: (car) => ({
+        type: 'DELETE_CAR',
+        meta: { car },
+        payload: car.destroy(),
+    }),
+};
+```
+
+### Parse Cloud Functions
+
+For complex operations requiring server-side logic:
+
+```javascript
+export const actions = {
+    sendCarNotice: (car) => ({
+        type: 'SEND_CAR_NOTICE',
+        meta: { car },
+        payload: Parse.Cloud.run('sendCarNotice', { car: car.toJSON() }),
+    }),
+};
+```
+
+## Important Rules
+
+### DO:
+- **ALWAYS** return a Promise as the payload
+- Pass all parameters to `meta` for debugging
+- Use `select()` with specific fields for performance
+- Convert Parse Objects to JSON when passing to Cloud functions
+- Use shorter action names (`get` not `getOrganization`)
+- Use template literals for async action states (`${LIST}_PENDING`)
+
+### DON'T:
+- Never use `await` inside action creators
+- Never use async functions in the payload
+- Never store plain JavaScript objects - always use domain objects
+- Never manually construct arrays - use domain array classes
+
+**WRONG:**
+```javascript
+export const list = () => ({
+    type: 'FETCH_ORGANIZATIONS',
+    payload: (async () => {  // DON'T use async
+        const orgs = await new Parse.Query(Organization).find();  // DON'T await
+        return new OrganizationArray(orgs);  // DON'T transform
+    })(),
+});
+```
+
+**CORRECT:**
+```javascript
+export const list = () => ({
+    type: 'FETCH_ORGANIZATIONS',
+    payload: new Parse.Query(Organization)
+        .select(Organization.FIELDS)
+        .find()  // Returns Promise directly
+});
+```
+
+## Using Redux in React Components
+
+### With Modern React Hooks
+
+```javascript
+import { useDispatch, useSelector } from 'react-redux';
+import { actions, selectors } from '../store/organizations';
+import { useEffect } from 'react';
+
+function OrganizationList() {
+    const dispatch = useDispatch();
+    const organizations = useSelector(selectors.list);
+    const { isLoading, isLoaded } = useSelector(selectors.listMeta);
+    const currentOrg = useSelector(selectors.current);
+    const error = useSelector(selectors.error);
+
+    // Fetch organizations on mount
+    useEffect(() => {
+        dispatch(actions.list());
+    }, [dispatch]);
+
+    // Select an organization
+    const handleSelect = (orgId) => {
+        dispatch(actions.set(orgId));
+    };
+
+    // Create new organization
+    const handleCreate = (orgData) => {
+        const newOrg = new Organization(orgData);
+        dispatch(actions.create(newOrg));
+    };
+
+    // Update organization
+    const handleUpdate = (org) => {
+        org.set('name', 'New Name');
+        dispatch(actions.update(org));
+    };
+
+    // Delete organization
+    const handleDelete = (org) => {
+        dispatch(actions.remove(org));
+    };
+
+    if (isLoading) return <Spinner />;
+    if (error) return <Error message={error} />;
+
+    return (
+        <div>
+            {organizations.map(org => (
+                <OrganizationCard
+                    key={org.id}
+                    organization={org}
+                    isSelected={org.id === currentOrg?.id}
+                    onSelect={() => handleSelect(org.id)}
+                    onUpdate={() => handleUpdate(org)}
+                    onDelete={() => handleDelete(org)}
+                />
+            ))}
+        </div>
+    );
+}
+```
+
+### Working with BasicArray
+
+```javascript
+import { useDispatch, useSelector } from 'react-redux';
+import { actions, selectors } from '../store/users';
+
+function UserProfile({ userId }) {
+    const dispatch = useDispatch();
+    const users = useSelector(selectors.list);
+    const user = users.get(userId);  // Using BasicArray's get method
+
+    const handleSave = () => {
+        user.set('firstName', 'John');
+        user.set('lastName', 'Doe');
+        dispatch(actions.update(user));
+    };
+
+    return (
+        <form onSubmit={handleSave}>
+            {/* Form fields */}
+        </form>
+    );
+}
+```
+
+## Middleware Requirements
+
+This pattern uses `redux-promise-middleware` which automatically appends:
+- `_PENDING` when the promise is initiated
+- `_FULFILLED` when the promise resolves successfully
+- `_REJECTED` when the promise fails
+
+Configure in your store setup:
+```javascript
+import promiseMiddleware from 'redux-promise-middleware';
+
+const store = configureStore({
+    reducer: rootReducer,
+    middleware: [promiseMiddleware],
+});
+```
+
+## Learning Resources
+
+**Redux:**
+- [Redux Documentation](https://redux.js.org/)
+- [Redux Tutorial by LearnCode.academy](https://youtu.be/1w-oQ-i1XB8?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b) - Comprehensive video series covering Redux fundamentals
+
+**React & Modern JavaScript:**
+- [React Documentation](https://react.dev/)
+- [JavaScript.info](https://javascript.info/) - In-depth JavaScript guide
+- [React JS Tutorial by LearnCode.academy](https://youtu.be/MhkGQAoc7bc?list=PLoYCgNOIyGABj2GQSlDRjgvXtqfDxKm5b) - 14 videos on React & Flux
+
+**Parse Platform:**
+- [Parse Platform Documentation](https://docs.parseplatform.org/)
+- [Parse JavaScript SDK Guide](https://docs.parseplatform.org/js/guide/)
